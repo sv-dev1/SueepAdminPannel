@@ -1,0 +1,106 @@
+﻿@*@model IEnumerable<Sueep.Models.Sueeper>*@
+
+@using Sueep.Helpers;
+@model PaginatedList<Sueeper>
+
+
+@{
+    ViewData["Title"] = "Index";
+}
+<body id="services-sec">
+    <p>
+        <a href="Createsueeper" class="sueeperlink">Create New Sueeper</a>
+    </p>
+    <div>
+        <label style="color:red">@ViewBag.Message</label>
+    </div>
+
+
+    <form action="/Sueeper/Index?currentFilter=@Model.CurrentFilter">
+        <div class="form-actions no-color">
+            <p>
+                Search: <input type="text" name="SearchString" value="@Model.CurrentFilter" />
+                <input type="submit" value="Search" class="btn btn-default" style=" background-color: white; color: #fe346e; " /> |
+            </p>
+        </div>
+    </form>
+    <table class="table table-responsive">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayName("Name")
+                </th>
+                <th>
+                    @Html.DisplayName("Email")
+                </th>
+                <th>
+                    @Html.DisplayName("Phone")
+                </th>
+
+
+                <th>
+                    @Html.DisplayName("Zipcode")
+                </th>
+
+
+                <th>
+                    @Html.DisplayName("Status")
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Phone)
+                    </td>
+
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Zipcode)
+                    </td>
+
+
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsBusy)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Detail", "sueeperdetail", new { id = item.Id }) |
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                        @Html.ActionLink("Delete", "deleteSuueeper", new { id = item.Id })
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @{
+        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+    }
+
+    <a href="/Sueeper/Index?PageIndex=@(Model.PageIndex - 1)&searchString=@Model.CurrentFilter"
+       class="btn btn-default @prevDisabled" style=" background-color: white; color: #fe346e; ">
+        Previous
+    </a>
+    <a href="/Sueeper/Index?PageIndex=@(Model.PageIndex + 1)&searchString=@Model.CurrentFilter"
+       class="btn btn-default @nextDisabled" style=" background-color: white; color: #fe346e; ">
+        Next
+    </a>
+    <hr />
+    <span>
+        Showing Page @Model.PageIndex of @Model.TotalPages
+    </span>
+
+</body>

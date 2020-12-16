@@ -1,0 +1,110 @@
+﻿@*@model IEnumerable<Sueep.Models.Users>*@
+
+@using Sueep.Helpers;
+@model PaginatedList<Sueep.Models.Users>
+
+
+@{
+    ViewData["Title"] = "Cutomers";
+}
+
+<h1>Cutomers</h1>
+<body id="services-sec">
+    <form action="/Service/Cutomers?currentFilter=@Model.CurrentFilter">
+        <div class="form-actions no-color">
+            <p>
+                Search: <input type="text" name="SearchString" value="@Model.CurrentFilter" />
+                <input type="submit" value="Search" class="btn btn-default" style=" background-color: white; color: #fe346e; " /> |
+            </p>
+        </div>
+    </form>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayName("Name")
+                </th>
+                <th>
+                    Email
+                </th>
+
+                <th>
+                    JoinDate
+                </th>
+
+                <th>
+                    Gender
+                </th>
+                <th>
+                    PhoneNumber
+                </th>
+
+                <th>
+                    Country
+                </th>
+
+                <th>
+                    Cit
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PersonName)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.JoinDate)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Gender)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PhoneNumber)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Country)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.City)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.RegisterId }) |
+
+                        @Html.ActionLink("Delete", "deleteservices", new { id = item.RegisterId })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @{
+        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+    }
+
+    <a href="/Service/Cutomers?PageIndex=@(Model.PageIndex - 1)&searchString=@Model.CurrentFilter"
+       class="btn btn-default @prevDisabled" style=" background-color: white; color: #fe346e; ">
+        Previous
+    </a>
+    <a href="/Service/Cutomers?PageIndex=@(Model.PageIndex + 1)&searchString=@Model.CurrentFilter"
+       class="btn btn-default @nextDisabled" style=" background-color: white; color: #fe346e; ">
+        Next
+    </a>
+    <hr />
+    <span>
+        Showing Page @Model.PageIndex of @Model.TotalPages
+    </span>
+
+</body>

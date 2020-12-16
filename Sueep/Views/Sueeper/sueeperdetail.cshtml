@@ -1,0 +1,105 @@
+﻿@model Sueep.Models.Sueeper
+@*@model IEnumerable<Sueep.Models.Sueeper>*@
+
+@{
+    ViewData["Title"] = "sueeperdetail";
+}
+
+@*<div>
+    <label class="field-validation-error" style="color:red">@Html.DisplayFor(model => model.LoginError)</label>
+</div>*@
+<div>
+    <h4>Sueeper</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2" hidden="hidden">
+            @ViewBag.Id
+        </dt>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @ViewBag.Name
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd class="col-sm-10">
+            @ViewBag.Email
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Phone)
+        </dt>
+        <dd class="col-sm-10">
+            @ViewBag.Phone
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.City)
+        </dt>
+        <dd class="col-sm-10">
+            @ViewBag.City
+        </dd>
+
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Socialsecuritynumber)
+        </dt>
+
+        <dd class="col-sm-10">
+            @ViewBag.Socialsecuritynumber
+        </dd>
+
+
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Do_you_have_car)
+        </dt>
+        <dd class="col-sm-10">
+            @ViewBag.Do_you_have_car
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Can_you_buy_cleaning_products)
+        </dt>
+
+        <dd class="col-sm-10">
+            @ViewBag.Can_you_buy_cleaning_products
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Zipcode)
+        </dt>
+        <dd class="col-sm-10">
+            @ViewBag.Zipcode
+        </dd>
+
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.lng)
+        </dt>
+        <dd class="col-sm-10">
+            @ViewBag.lng
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.lat)
+        </dt>
+        <dd class="col-sm-10">
+            @ViewBag.lat
+        </dd>
+
+
+    </dl>
+</div>
+
+<div>
+    @*<input type="submit" id="@ViewBag.Id" value=" show" />*@
+
+    @Html.ActionLink("Total Services", "Totalservices", new { sueeperid = @ViewBag.Id })
+
+    <a href="#" value=" @ViewBag.Id"></a>
+    <a asp-action="Index">Back to List</a>
+
+</div>

@@ -1,0 +1,90 @@
+﻿@model Sueep.Models.Sueeper
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<body id="services-sec">
+
+    <h4>Edit Sueeper Detail</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Phone" class="control-label"></label>
+                    <input asp-for="Phone" class="form-control" />
+                    <span asp-validation-for="Phone" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Zipcode" class="control-label"></label>
+                    <input asp-for="Zipcode" class="form-control" />
+                    <span asp-validation-for="Zipcode" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Socialsecuritynumber" class="control-label"></label>
+                    <input asp-for="Socialsecuritynumber" class="form-control" />
+                    <span asp-validation-for="Socialsecuritynumber" class="text-danger"></span>
+                </div>
+
+
+                <div class="form-group">
+                    <label class="control-label">Do you have car?</label>
+                    <div class="col-md-10">
+                        Yes
+                        @Html.RadioButtonFor(model => model.Do_you_have_car, "Yes")
+                        No
+                        @Html.RadioButtonFor(model => model.Do_you_have_car, "No")
+                    </div>
+                    @*<label asp-for="Do_you_have_car" class="control-label"></label>
+            <input asp-for="Do_you_have_car" class="form-control" />
+            <span asp-validation-for="Do_you_have_car" class="text-danger"></span>*@
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Can you buy cleaning products?</label>
+                    <div class="col-md-10">
+                        Yes
+                        @Html.RadioButtonFor(model => model.Can_you_buy_cleaning_products, "Yes")
+                        No
+                        @Html.RadioButtonFor(model => model.Can_you_buy_cleaning_products, "No")
+                    </div>
+                    @*<label asp-for="Can_you_buy_cleaning_products" class="control-label"></label>
+            <input asp-for="Can_you_buy_cleaning_products" class="form-control" />
+            <span asp-validation-for="Can_you_buy_cleaning_products" class="text-danger"></span>*@
+      </div>
+
+
+
+
+                <div class="form-group">
+                    <input type="submit" value="Update" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+    </body>
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+
+
+    <style>
+        .btn-primary {
+            color: #fff;
+            background-color: #fe346e !important;
+            border-color: #fe346e !important;
+        }
+    </style>
+

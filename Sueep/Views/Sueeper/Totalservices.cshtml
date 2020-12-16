@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Sueep.Models.totservices>
+
+@{
+    ViewData["Title"] = "Totalservices";
+}
+
+
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            
+            <th>
+                @Html.DisplayName("Date of services")
+            </th>
+            <th>
+                @Html.DisplayName("Time of services")
+            </th>
+            <th>
+                @Html.DisplayName("Status")
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+           
+            <td>
+                @Html.DisplayFor(modelItem => item.DateofServices)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TimeofServices)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+          
+        </tr>
+}
+    </tbody>
+</table>
