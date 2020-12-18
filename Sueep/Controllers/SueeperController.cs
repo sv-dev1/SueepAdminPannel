@@ -27,13 +27,13 @@ namespace Sueep.Controllers
             {
                 try
                 {
-                    sueeperlist = sueeperlist.Where(t => t.Name.Contains(searchString) || t.City.Contains(searchString) || t.Email.Contains(searchString) || t.Socialsecuritynumber.Contains(searchString) || t.Phone.Contains(searchString));
+                    sueeperlist = sueeperlist.Where(t => t.Name.ToLower().Contains(searchString.ToLower()));
                 }
                 catch (Exception)
                 {
                 }
             }
-            int pageSize = 5;
+            int pageSize = 15;
             getModel = await PaginatedList<Sueeper>.CreateAsync(
                 sueeperlist.AsNoTracking(), pageIndex ?? 1, pageSize);
 
@@ -196,13 +196,13 @@ namespace Sueep.Controllers
             {
                 try
                 {
-                    serviceList = serviceList.Where(t => t.Status.Contains(searchString) || t.dateofservice.Contains(searchString) || t.FirstName.Contains(searchString) || t.LastName.Contains(searchString) || t.PersonName.Contains(searchString));
+                    serviceList = serviceList.Where(t => t.Status.ToLower().Contains(searchString.ToLower()) || t.dateofservice.ToLower().Contains(searchString.ToLower()) || t.FirstName.ToLower().Contains(searchString.ToLower()) || t.LastName.ToLower().Contains(searchString.ToLower()) || t.PersonName.ToLower().Contains(searchString.ToLower()));
                 }
                 catch (Exception)
                 {
                 }
             }
-            int pageSize = 5;
+            int pageSize = 15;
             StatusmodelModel = await PaginatedList<StatusmodelClass>.CreateAsync(
                 serviceList.AsNoTracking(), pageIndex ?? 1, pageSize);
 
@@ -213,16 +213,29 @@ namespace Sueep.Controllers
         [HttpGet]
         public IActionResult StatusEdit(int? id)
         {
-            var cheklist = db.Servicestatus.Where(m => m.serviceid == id).FirstOrDefault();
-            return View(cheklist);
+            try
+            {
+                if (!db.Servicestatus.Any())
+                {
+                    var cheklist = db.Servicestatus.Where(m => m.serviceid == id).FirstOrDefault();
+                    return View(cheklist);
+                }
+            }
+            catch (Exception)
+            {
+                return View();
+            }
+            return View();
         }
         [HttpPost]
         public IActionResult StatusEdit(StatusmodelClass model, string status)
         {
-
-            var checklist = db.Servicestatus.Where(m => m.serviceid == model.Id).FirstOrDefault();
-            checklist.Servicestatus = model.Servicestatus;
-            db.SaveChanges();
+            if (!db.Servicestatus.Any())
+            {
+                var checklist = db.Servicestatus.Where(m => m.serviceid == model.Id).FirstOrDefault();
+                checklist.Servicestatus = model.Servicestatus;
+                db.SaveChanges();
+            }
             return RedirectToAction("status");
         }
 

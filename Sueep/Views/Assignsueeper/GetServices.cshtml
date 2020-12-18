@@ -7,7 +7,7 @@
     ViewData["Title"] = "GetServices";
 }
 <body id="services-sec">
-    <form action="/Assignsueeper/GetServices?currentFilter=@Model.CurrentFilter" >
+    <form action="/Assignsueeper/GetServices?currentFilter=@Model.CurrentFilter">
         <div class="form-actions no-color">
             <p>
                 Search: <input type="text" name="SearchString" value="@Model.CurrentFilter" />
@@ -83,6 +83,10 @@
 
                         </tr>
                     }
+                    @if (!Model.Any())
+                    {
+                        <tr><td>No Records found</td></tr>
+                    }
                 </tbody>
 
             </table>
@@ -148,6 +152,23 @@
 
                 });
 
+                //console.log('@ViewBag.Sueepers');
+                @*$(@ViewBag.Sueepers).each(function () {
+                    $("select[name='SueeperId']").append($("<option></option>").val(this.ID).html(this.Name));
+                });*@
+
+                $.ajax({
+                    url: "/Service/GetSueeperList",
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    datatype: JSON,
+                    success: function (result) {
+                        $(result).each(function () {
+                            $("select[name='SueeperId']").append($("<option></option>").val(this.value).html(this.text));
+                        });
+                    },
+                    error: function (data) { }
+                });
             });
 
         $('.assign').click(function () {

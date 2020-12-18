@@ -82,6 +82,10 @@
                     </td>
                 </tr>
             }
+            @if (!Model.Any())
+            {
+                <tr><td>No Records found</td></tr>
+            }
         </tbody>
     </table>
 

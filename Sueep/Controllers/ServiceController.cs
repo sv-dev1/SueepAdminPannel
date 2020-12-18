@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Sueep.Helpers;
 using Sueep.Models;
@@ -84,13 +85,13 @@ namespace Sueep.Controllers
             {
                 try
                 {
-                    serviceList = (IOrderedQueryable<Getmodel>)serviceList.Where(t => (t.FirstName + t.LastName + t.PersonName + t.Status + t.Phone + t.dateofservice + t.Amount).Contains(searchString));
+                    serviceList = (IOrderedQueryable<Getmodel>)serviceList.Where(t => (t.FirstName + t.LastName + t.PersonName + t.Status + t.Phone + t.dateofservice + t.Amount).ToLower().Contains(searchString.ToLower()));
                 }
                 catch (Exception)
                 {
                 }
             }
-            int pageSize = 5;
+            int pageSize = 15;
             getModel = await PaginatedList<Getmodel>.CreateAsync(
                 serviceList.AsNoTracking(), pageIndex ?? 1, pageSize);
 
@@ -162,13 +163,13 @@ namespace Sueep.Controllers
             {
                 try
                 {
-                    customerslist = customerslist.Where(t => t.PersonName.Contains(searchString) || t.City.Contains(searchString) || t.Email.Contains(searchString) || t.Gender.Contains(searchString) || t.PhoneNumber.Contains(searchString)|| t.Country.Contains(searchString));
+                    customerslist = customerslist.Where(t => t.PersonName.ToLower().Contains(searchString.ToLower()) || t.City.ToLower().Contains(searchString.ToLower()) || t.Email.ToLower().Contains(searchString) || t.Gender.ToLower().Contains(searchString.ToLower()) || t.PhoneNumber.ToLower().Contains(searchString.ToLower()) || t.Country.ToLower().Contains(searchString.ToLower()));
                 }
                 catch (Exception)
                 {
                 }
             }
-            int pageSize = 5;
+            int pageSize = 15;
             UsersModel = await PaginatedList<Users>.CreateAsync(
                 customerslist.AsNoTracking(), pageIndex ?? 1, pageSize);
 
@@ -250,6 +251,13 @@ namespace Sueep.Controllers
             return RedirectToAction("Cutomers");
         }
 
+
+        [HttpGet]
+        public IActionResult GetSueeperList()
+        {
+            var sueeperList = db.SueeperInfo.ToList();
+            return Json(new SelectList(sueeperList, "Id", "Name"));
+        }
 
     }
 }

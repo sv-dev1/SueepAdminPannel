@@ -67,13 +67,13 @@ namespace Sueep.Controllers
             {
                 try
                 {
-                    serviceslist = (IOrderedQueryable<Getmodel>)serviceslist.Where(t => (t.FirstName + t.LastName + t.PersonName + t.ZipCode + t.Phone).Contains(searchString));
+                    serviceslist = (IOrderedQueryable<Getmodel>)serviceslist.Where(t => (t.FirstName + t.LastName + t.PersonName + t.ZipCode + t.Phone).ToLower().Contains(searchString.ToLower()));
                 }
                 catch (Exception)
                 {
                 }
             }
-            int pageSize = 5;
+            int pageSize = 15;
             getModel = await PaginatedList<Getmodel>.CreateAsync(
                 serviceslist.AsNoTracking(), pageIndex ?? 1, pageSize);
 
@@ -89,6 +89,7 @@ namespace Sueep.Controllers
             return Json(sueeperList);
         }
 
+        
 
         [HttpGet]
         public IActionResult AssignSupeer(string serviceId, string serviceDate, string serviceTime, string sueeperId)
