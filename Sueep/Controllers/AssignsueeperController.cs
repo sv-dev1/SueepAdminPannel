@@ -132,6 +132,7 @@ namespace Sueep.Controllers
             if (check != null)
             {
                 check.SueeperId = Convert.ToInt32(sueeperid);
+                check.Servicestatus = "Progress";
                 db.SaveChanges();
             }
         }
