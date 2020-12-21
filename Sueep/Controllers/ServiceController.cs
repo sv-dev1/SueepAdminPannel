@@ -140,12 +140,61 @@ namespace Sueep.Controllers
         }
         public IActionResult Dashboard()
         {
-            //if(string.IsNullOrEmpty(HttpContext.Session.GetString("Email")))
+            var pendingsstatus = db.Servicestatus.Where(m => m.Servicestatus == "Pemding").Count();
+            // var pendings= statusdata.
+            var Progresssstatus = db.Servicestatus.Where(m => m.Servicestatus == "Progress").Count();
+            var Completestatus = db.Servicestatus.Where(m => m.Servicestatus == "Complete").Count();
+
+            // var listdata=(from a in db.AssinSueeper
+
+            //var lastsevendaysdata =db.AssinSueeper.orderbyde
+            //if(string.IsNullOrEmpty(HttpContext.Session.GetStrn ing("Email")))
             //     {
             //         return RedirectToAction("Adminlogin");
             //     }
-            return View();
+
+
+            ViewBag.Pendings = pendingsstatus;
+            ViewBag.Progress = Progresssstatus;
+            ViewBag.Complete = Completestatus;
+
+
+            //table data for dashboard
+
+            var serviceList = (from details in db.PersonalInfo
+                               join Add in db.AddressInfo on details.Id equals Add.PersonalInfoId
+                               join TimeP in db.TimeDateInfo on details.Id equals TimeP.PersonalInfoId
+                               join paytbl in db.PaymentTbl on details.Id equals paytbl.ServiceId
+                               join assintbl in db.AssinSueeper on details.Id equals assintbl.PersonaLInfoId
+                               join stsustable in db.Servicestatus on assintbl.PersonaLInfoId equals stsustable.serviceid
+
+                               select new Getmodel
+                               {
+                                   FirstName = details.FirstName,
+                                   LastName = details.LastName,
+
+                                   Phone = details.Phone,
+                                   ZipCode = details.ZipCode,
+                                   dateofservice = TimeP.DateOfService,
+                                   timeofservice = TimeP.TimeOfService,
+                                   Email = details.Email,
+
+                                  // PaymentStatus = "Paid",
+                                   Status = stsustable.Servicestatus,
+
+
+                                   Amount = paytbl.PaymentAmount,
+
+                               }).OrderByDescending(m => m.dateofservice).ToList();
+
+            DateTime today = DateTime.Now;
+            DateTime seventhday = DateTime.Now.Date.AddDays(-7);
+            // seventhday = seventhday.AddDays(-7);    
+            serviceList = serviceList.Where(x => Convert.ToDateTime(x.dateofservice) >= today && Convert.ToDateTime(x.dateofservice) <= seventhday).ToList();
+
+            return View(serviceList);
         }
+
 
         public IActionResult Logout()
         {
