@@ -1,13 +1,21 @@
-﻿
+﻿@model Sueep.Helpers.DashBoardModel
 @{
     ViewData["Title"] = "Dashboard";
 }
 
-<h1>Dashboard</h1>
+<!-- App css -->
+<link href="~/css/bootstrap.min.css" rel="stylesheet" type="text/css" id="bootstrap-stylesheet" />
+<link href="~/css/materialdesignicons.min.css" rel="stylesheet" type="text/css" />
+<link href="~/css/ionicons.min.css" rel="stylesheet" type="text/css" />
+<link href="~/css/app.min.css" rel="stylesheet" type="text/css" id="app-stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+
+<h1>@*Dashboard*@</h1>
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>Know about me <a href="https://sueep.com">Sueep.com</a>.</p>
+    <p>Know about <a href="https://sueep.com">Sueep.com</a>.</p>
 </div>
 
 
@@ -35,23 +43,215 @@
 <div>
 
 
-    <div id="table">
-        <table>
-            <tr>
-                <td>Pending</td>
-                <td>blaa</td>
-                <td>Progress</td>
-                <td>bla bla</td>
-                <td>Complete</td>
+    @*<div id="table">
+            <table>
+                <tr>
+                    <td>Pending</td>
+                    <td>blaa</td>
+                    <td>Progress</td>
+                    <td>bla bla</td>
+                    <td>Complete</td>
 
-            </tr>
-            <tr>
-                <td>Pending</td>
-                <td>blaa</td>
-                <td>Progress</td>
-                <td>bla bla</td>
-                <td>Complete</td>
-            </tr>
-        </table>
+                </tr>
+                <tr>
+                    <td>Pending</td>
+                    <td>blaa</td>
+                    <td>Progress</td>
+                    <td>bla bla</td>
+                    <td>Complete</td>
+                </tr>
+            </table>
+        </div>*@
+
+
+
+    <div class="row">
+        <div class="col-xl-4 col-sm-6 card-bx-multi">
+            <div class="card bg-pink mb-4">
+                <div class="card-body widget-style-2 p-0">
+                    <div class="text-white media">
+                        <div class="media-body align-self-center pl-3">
+                            <h2 class="my-0 text-white"><span data-plugin="counterup">@(ViewBag.Pendings)</span></h2>
+                            <p class="mb-0 text-uppercase">Pending</p>
+                        </div>
+                        <i class=""><img src="~/images/card-icon-1.png"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-4 col-sm-6 card-bx-multi">
+            <div class="card bg-purple mb-4">
+                <div class="card-body widget-style-2 p-0">
+                    <div class="text-white media">
+                        <div class="media-body align-self-center pl-3">
+                            <h2 class="my-0 text-white"><span data-plugin="counterup">@(ViewBag.Progress)</span></h2>
+                            <p class="mb-0 text-uppercase">Progress</p>
+                        </div>
+                        <i class=""><img src="~/images/card-icon-2.png"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-4 col-sm-6 card-bx-multi">
+            <div class="card bg-info mb-4">
+                <div class="card-body widget-style-2 p-0">
+                    <div class="text-white media">
+                        <div class="media-body align-self-center pl-3">
+                            <h2 class="my-0 text-white"><span data-plugin="counterup">@(ViewBag.Complete)</span></h2>
+                            <p class="mb-0 text-uppercase">Complete</p>
+                        </div>
+                        <i class=""><img src="~/images/card-icon-3.png"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 col-md-12">
+            <div class="dash-white-bx bg-white mb-4">
+                <div class="dash-heading border-bottom">
+                    <h5 class="m-0 text-uppercase">Last 7 Days </h5>
+                </div>
+                <div class="dash-search-grid pt-2 pb-2 pl-3 pr-3">
+                    <div class="row">
+                        <div class="col-12 col-md-4 align-self-center">
+                            <div class="input-group">
+                                <input type="text" id="txtSearch" class="form-control" placeholder="" value="@Model.SearchString">
+                                <div class="input-group-append">
+                                    <span class="input-group-text" id="btnSearch"><i class="mdi mdi-magnify"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-8 align-self-center">
+                            <div class="add-new-btn text-right">
+                                @*<button type="button" class="btn btn-sm btn-success">Add New Jobs</button>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="dash-table-grid pt-0">
+                    <table width="100%" style=" width: 100%; " class="" border="1" bordercolor="#ddd">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Zip Code</th>
+                                <th>Date Of Service</th>
+                                <th>Time Of Service</th>
+                                <th>Amount</th>
+                                <th width="136">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.GetModel)
+                            {
+                                <tr>
+                                    <td style=" text-align: left; ">@(item.FirstName +" "+ item.LastName)</td>
+                                    <td>@item.Email</td>
+                                    <td>@item.Phone</td>
+                                    <td>@item.ZipCode</td>
+                                    <td>@item.dateofservice</td>
+                                    <td>@item.timeofservice</td>
+                                    <td>@(string.Format("{0:0.00}", item.Amount))</td>
+                                    <td><button class="btn btn-sm btn-primary overdue-btn">@item.Status</button></td>
+                                </tr>
+                            }
+                            @if (!Model.GetModel.Any())
+                            {
+                                <tr><td>No Records found</td></tr>
+                            }
+                        </tbody>
+                        @*<tbody>
+                                <tr>
+                                    <td>1001</td>
+                                    <td>Steve</td>
+                                    <td>1739 North High Street</td>
+                                    <td>Painting</td>
+                                    <td>Emergency</td>
+                                    <td>7/23/2020 2:50PM</td>
+                                    <td><button class="btn btn-sm btn-danger overdue-btn">Closed Jobs</button></td>
+                                </tr>
+                                <tr>
+                                    <td>1002</td>
+                                    <td>Steve</td>
+                                    <td>1739 North High Street</td>
+                                    <td>Painting</td>
+                                    <td>Emergency</td>
+                                    <td>7/23/2020 2:50PM</td>
+                                    <td><button class="btn btn-sm btn-primary">New Jobs</button></td>
+                                </tr>
+                                <tr>
+                                    <td>1003</td>
+                                    <td>Steve</td>
+                                    <td>1739 North High Street</td>
+                                    <td>Painting</td>
+                                    <td>Emergency</td>
+                                    <td>7/23/2020 2:50PM</td>
+                                    <td><button class="btn btn-sm btn-success">Overdue Date</button></td>
+                                </tr>
+                                <tr>
+                                    <td>1004</td>
+                                    <td>Steve</td>
+                                    <td>1739 North High Street</td>
+                                    <td>Painting</td>
+                                    <td>Emergency</td>
+                                    <td>7/23/2020 2:50PM</td>
+                                    <td><button class="btn btn-sm btn-danger">Overdue Date</button></td>
+                                </tr>
+                                <tr>
+                                    <td>1005</td>
+                                    <td>Steve</td>
+                                    <td>1739 North High Street</td>
+                                    <td>Painting</td>
+                                    <td>Emergency</td>
+                                    <td>7/23/2020 2:50PM</td>
+                                    <td><button class="btn btn-sm btn-warning">Overdue Date</button></td>
+                                </tr>
+                                <tr>
+                                    <td>1006</td>
+                                    <td>Steve</td>
+                                    <td>1739 North High Street</td>
+                                    <td>Painting</td>
+                                    <td>Emergency</td>
+                                    <td>7/23/2020 2:50PM</td>
+                                    <td><button class="btn btn-sm btn-danger">Overdue Date</button></td>
+                                </tr>
+                                <tr>
+                                    <td>1007</td>
+                                    <td>Steve</td>
+                                    <td>1739 North High Street</td>
+                                    <td>Painting</td>
+                                    <td>Emergency</td>
+                                    <td>7/23/2020 2:50PM</td>
+                                    <td><button class="btn btn-sm btn-primary">Overdue Date</button></td>
+                                </tr>
+                                <tr>
+                                    <td>1008</td>
+                                    <td>Steve</td>
+                                    <td>1739 North High Street</td>
+                                    <td>Painting</td>
+                                    <td>Emergency</td>
+                                    <td>7/23/2020 2:50PM</td>
+                                    <td><button class="btn btn-sm btn-success">Overdue Date</button></td>
+                                </tr>
+                            </tbody>*@
+                    </table>
+                </div>
+            </div>
+
+        </div>
     </div>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+    $('#btnSearch').on('click', function () {
+        var _data = $('#txtSearch').val();
+        window.location.href = window.location.origin + window.location.pathname + '?search=' + _data;
+
+    });
+</script>

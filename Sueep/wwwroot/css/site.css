@@ -28,7 +28,23 @@ html {
 .box-shadow {
   box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
+header.menu-main-sec .navbar {
+    background: #fe346e !important;
+}
+footer {
+    text-align: center;
+    background: #102d3a;
+    color: #fff;
+    padding: 8px 0;
+    border-top: 2px solid #fe346e;
+}
 
+    footer a {
+        color: #fe346e;
+    }
+header.menu-main-sec .navbar ul li a {
+    color: #fff !important;
+}
 button.accept-policy {
   font-size: 1rem;
   line-height: inherit;
@@ -43,7 +59,7 @@ html {
 
 body {
   /* Margin bottom by footer height */
-  margin-bottom: 60px;
+  margin-bottom: 0px;
 
 }
 .footer {
@@ -59,8 +75,28 @@ body#services-sec {
     background: #102d3a;
     color: #fff;
 }
-body#services-sec table.table {
+    body#services-sec table.table {
         color: #fff;
+        display: inline-table;
+    }
+.form-actions.no-color input.btn {
+    padding: 3px 10px;
+    margin: 0;
+    position: relative;
+    top: -2px;
+    font-size: 14px;
+    border-radius: 0;
+}
+#StudentForm table th {
+    padding: 12px 0;
+}
+#StudentForm table {
+    width: 100%;
+}
+
+.form-actions.no-color {
+    margin: 0px 0 0;
+    text-align: right;
 }
 .sueeperlink {
     color: #fff !important;

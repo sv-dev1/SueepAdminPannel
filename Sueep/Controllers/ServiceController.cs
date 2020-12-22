@@ -138,8 +138,9 @@ namespace Sueep.Controllers
             }
             return View();
         }
-        public IActionResult Dashboard()
+        public IActionResult Dashboard(string search)
         {
+            DashBoardModel model = new DashBoardModel();
             var pendingsstatus = db.Servicestatus.Where(m => m.Servicestatus == "Pemding").Count();
             // var pendings= statusdata.
             var Progresssstatus = db.Servicestatus.Where(m => m.Servicestatus == "Progress").Count();
@@ -179,7 +180,7 @@ namespace Sueep.Controllers
                                    timeofservice = TimeP.TimeOfService,
                                    Email = details.Email,
 
-                                  // PaymentStatus = "Paid",
+                                   // PaymentStatus = "Paid",
                                    Status = stsustable.Servicestatus,
 
 
@@ -190,9 +191,15 @@ namespace Sueep.Controllers
             DateTime today = DateTime.Now;
             DateTime seventhday = DateTime.Now.Date.AddDays(-7);
             // seventhday = seventhday.AddDays(-7);    
-            serviceList = serviceList.Where(x => Convert.ToDateTime(x.dateofservice) >= today && Convert.ToDateTime(x.dateofservice) <= seventhday).ToList();
-
-            return View(serviceList);
+            serviceList = serviceList.Where(x => Convert.ToDateTime(x.dateofservice) <= today && Convert.ToDateTime(x.dateofservice) <= seventhday).ToList();
+            if (!string.IsNullOrEmpty(search))
+            {
+                string temp = search.ToLower();
+                model.SearchString = search;
+                serviceList = serviceList.Where(x => x.FirstName.ToLower().Contains(temp) || x.LastName.ToLower().Contains(temp) || x.Email.ToLower().Contains(temp) || x.Phone.ToLower().Contains(temp) || x.ZipCode.ToLower().Contains(temp) || x.Amount.ToLower().Contains(temp) || x.Status.ToLower().Contains(temp))?.ToList();
+            }
+            model.GetModel = serviceList;
+            return View(model);
         }
 
 

@@ -6,6 +6,10 @@
     <UserSecretsId>2596df0d-be63-47aa-8292-134604fee9ad</UserSecretsId>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+
   <ItemGroup>
     <Content Include="Controllers\ServiceController.cs" />
   </ItemGroup>
