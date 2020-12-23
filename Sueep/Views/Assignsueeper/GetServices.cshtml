@@ -1,8 +1,5 @@
-﻿@*@model IEnumerable<Sueep.Models.Getmodel>*@
-@using Sueep.Helpers;
+﻿@using Sueep.Helpers;
 @model PaginatedList<Getmodel>
-
-
 @{
     ViewData["Title"] = "GetServices";
 }
@@ -23,9 +20,9 @@
                         <th>Name</th>
                         <th>Phone</th>
 
-                        <th>Date Of Service</th>
-                        <th>Zip Code</th>
-                        <th>Time Of Service</th>
+                        <th>Service Date</th>
+                        <th>ZipCode</th>
+                        <th>Service Time</th>
 
                         <th>Sueepers</th>
                     </tr>
@@ -56,9 +53,11 @@
 
 
                                 @*@Html.DropDownListFor(m => item.Id, new SelectList(ViewBag.sueepers, "Id", "Name"), new { @class = "form-control" })*@
-                                @*  @Html.DropDownList("@item.Id", new SelectList(ViewBag.sueepers, " Id", "Name"))*@
+                                @* @Html.DropDownList("@item.Id", new SelectList(ViewBag.sueepers, " Id", "Name"))*@
 
-                                <select id="@item.Id" class="form-control Sueeper" name="SueeperId"><option value="0" selected="true">--Select Sueeper--</option></select>
+                                <select id="@item.Id" class="form-control Sueeper" name="SueeperId">
+                                    <option>Select Sueeper</option>
+                                </select>
                                 @*s<select id="@item.ZipCode class="ddlS"><option value="0">--Select Sueeper--</option></select>*@
                                 <input type="hidden" id="hiddenselected" value="0" class="hiddenselectedValue" />
                             </td>
@@ -91,6 +90,7 @@
 
             </table>
         </form>
+
         @{
             var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
             var nextDisabled = !Model.HasNextPage ? "disabled" : "";
@@ -116,13 +116,13 @@
             $(document).ready(function () {
               //  alert('h');
                 $('.hiddenZC').each(function (index, obj) {
-                   // debugger
+               //   debugger
                     var Zipcode = obj.value.split(',')[0];
                     var Id = obj.value.split(',')[1];
                    // GetSueepers(Zipcode,Id)
                     var obj = {};
-                    obj.Id = Zipcode;
-
+                    obj.Zipcode = Zipcode;
+                    obj.Id = Id;
                    // alert(obj.value + ',' + $('.hiddenID').val())
                     $.ajax({
                         type: "GET",
@@ -132,13 +132,15 @@
                         contentType: 'application/json; charset=utf-8',
                         success: function Complete(response) {
                             // console.log(response);
-                          //  debugger;
+                            debugger;
                             $.each(response, function (id, name) {
                                 $('#' + Id)
                                     .append($("<option></option>")
                                         .attr("value", name.id)
                                         .text(name.name));
-
+                                if (name.id == name.selectedValue) {
+                                    $("option[value="+name.id+"]").prop("selected", "selected")
+                                }
 
                             });
                         }
@@ -152,23 +154,6 @@
 
                 });
 
-                //console.log('@ViewBag.Sueepers');
-                @*$(@ViewBag.Sueepers).each(function () {
-                    $("select[name='SueeperId']").append($("<option></option>").val(this.ID).html(this.Name));
-                });*@
-
-                $.ajax({
-                    url: "/Service/GetSueeperList",
-                    type: "GET",
-                    contentType: "application/json; charset=utf-8",
-                    datatype: JSON,
-                    success: function (result) {
-                        $(result).each(function () {
-                            $("select[name='SueeperId']").append($("<option></option>").val(this.value).html(this.text));
-                        });
-                    },
-                    error: function (data) { }
-                });
             });
 
         $('.assign').click(function () {
