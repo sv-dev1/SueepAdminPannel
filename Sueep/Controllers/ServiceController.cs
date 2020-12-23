@@ -141,9 +141,9 @@ namespace Sueep.Controllers
         public IActionResult Dashboard(string search)
         {
             DashBoardModel model = new DashBoardModel();
-            var pendingsstatus = db.Servicestatus.Where(m => m.Servicestatus == "Pemding").Count();
+            var pendingsstatus = db.Servicestatus.Where(m => m.Servicestatus == "Pending").Count();
             // var pendings= statusdata.
-            var Progresssstatus = db.Servicestatus.Where(m => m.Servicestatus == "Progress").Count();
+            var Progresssstatus = db.Servicestatus.Where(m => m.Servicestatus == "In Progress").Count();
             var Completestatus = db.Servicestatus.Where(m => m.Servicestatus == "Complete").Count();
 
             // var listdata=(from a in db.AssinSueeper

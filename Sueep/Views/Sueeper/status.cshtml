@@ -7,26 +7,46 @@
 @{
     ViewData["Title"] = "status";
 }
-
+<style>
+    @@media (min-width: 1200px) {
+        .container {
+            min-height: 500px;
+        }
+    }
+</style>
 <h3>Service Status</h3>
 
 <body id="services-sec">
-    <form action="/Sueeper/status?currentFilter=@Model.CurrentFilter">
+    @using (Html.BeginForm("status", "Sueeper", FormMethod.Get, new { id = "frmStatus" }))
+    {
+        <b> Status: </b>
+        @Html.DropDownList("ServiceStatus", new List<SelectListItem>
+        {
+            new SelectListItem { Text = "All", Value = "" },
+            new SelectListItem { Text = "In Progress", Value = "In Progress" },
+            new SelectListItem { Text = "Complete", Value = "Complete" },
+            new SelectListItem { Text = "Pending", Value = "Pending" },
+
+        })
+    }
+    <form action="/Sueeper/status?currentFilter=@Model.CurrentFilter" id="frmSearch">
         <div class="form-actions no-color">
-            <p>
-                Search: <input type="text" name="SearchString" value="@Model.CurrentFilter" />
-                <input type="submit" value="Search" class="btn btn-default" style=" background-color: white; color: #fe346e; " /> |
-            </p>
+            <div class="input-group">
+                <input type="text" id="SearchString" name="SearchString" class="form-control" value="@Model.CurrentFilter" placeholder="">
+                <div class="input-group-append">
+                    <span class="input-group-text" id="btnSearch"><i class="mdi mdi-magnify"></i></span>
+                </div>
+            </div>
         </div>
     </form>
     <table class="table">
         <thead>
             <tr>
-                
+
                 <th>
                     @Html.DisplayName("Name")
                 </th>
-               
+
 
                 <th>
                     @Html.DisplayName("Date Of Service")
@@ -34,7 +54,7 @@
                 <th>
                     @Html.DisplayName("Time Of Service")
                 </th>
-                
+
                 <th>
                     @Html.DisplayName("Service Status")
                 </th>
@@ -102,6 +122,11 @@
                     </td>
                 </tr>
             }
+
+            @if (!Model.Any())
+            {
+                <tr><td>No Records found</td></tr>
+            }
         </tbody>
     </table>
 
@@ -132,3 +157,16 @@
         border-color: #fe346e !important;
     }
 </style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+<script type="text/javascript">
+
+    $('#ServiceStatus').change(function () {
+        $('#frmStatus').submit();
+    });
+    $('#btnSearch').click(function () {
+        $('#frmSearch').submit();
+    });
+
+</script>

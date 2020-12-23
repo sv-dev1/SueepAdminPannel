@@ -10,33 +10,35 @@
 
 <body id="services-sec">
 
-    @using (Html.BeginForm("Services", "Service", FormMethod.Get))
-    {
+    <div class="job-status">
+        @using (Html.BeginForm("Services", "Service", FormMethod.Get))
+        {
+            <b>Job Status: </b>
+            @Html.DropDownList("JobStatus", new List<SelectListItem>
+        {
+            new SelectListItem{ Text="All", Value = "All" },
+            new SelectListItem{ Text="Processing", Value = "Processing" },
+            new SelectListItem{ Text="Incoming", Value = "Incoming" },
+            new SelectListItem{ Text="Successful", Value = "Successful" },
+            new SelectListItem{ Text="Confirmed", Value = "Confirmed" },
+         })
 
-        <b>Job Status: </b>
-        @Html.DropDownList("JobStatus", new List<SelectListItem>
-    {
-        new SelectListItem{ Text="All", Value = "All" },
-        new SelectListItem{ Text="Processing", Value = "Processing" },
-        new SelectListItem{ Text="Incoming", Value = "Incoming" },
-        new SelectListItem{ Text="Successful", Value = "Successful" },
-        new SelectListItem{ Text="Confirmed", Value = "Confirmed" },
-     })
 
-
-        <b>From : </b> @Html.TextBox("firstdate", "", new { @class = "datepicker", @type = "date" })
-        <b> To : </b> @Html.TextBox("enddate", "", new { @class = "datepicker", @type = "date" })
-        <br />
-
-        <form action="/Service/Services?currentFilter=@Model.CurrentFilter">
-            <div class="form-actions no-color">
-                <p>
-                    Search: <input type="text" name="SearchString" value="@Model.CurrentFilter" />
-                    <input type="submit" value="Search" class="btn btn-default" style=" background-color: white; color: #fe346e; " /> |
-                </p>
+            <b>From : </b> @Html.TextBox("firstdate", "", new { @class = "datepicker", @type = "date" })
+            <b> To : </b> @Html.TextBox("enddate", "", new { @class = "datepicker", @type = "date" })
+            <br />
+        }
+    </div>
+    <form action="/Service/Services?currentFilter=@Model.CurrentFilter" id="frmSearch">
+        <div class="form-actions no-color">
+            <div class="input-group">
+                <input type="text" id="SearchString" name="SearchString" class="form-control" value="@Model.CurrentFilter" placeholder="">
+                <div class="input-group-append">
+                    <span class="input-group-text" id="btnSearch"><i class="mdi mdi-magnify"></i></span>
+                </div>
             </div>
-        </form>
-    }
+        </div>
+    </form>
     <table class="table">
         <thead>
             <tr>
@@ -135,12 +137,15 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 
 <script type="text/javascript">
-
-    $(document).ready(function () {
-        var $j = jQuery.noConflict();
-
-        $j('.date-picker').datepicker();
+    $('#btnSearch').click(function () {
+        $('#frmSearch').submit();
     });
+
+    //$(document).ready(function () {
+    //    var $j = jQuery.noConflict();
+
+    //    $j('.date-picker').datepicker();
+    //});
 
 
     $('#JobStatus').change(function () {

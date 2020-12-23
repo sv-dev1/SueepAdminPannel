@@ -4,12 +4,14 @@
     ViewData["Title"] = "GetServices";
 }
 <body id="services-sec">
-    <form action="/Assignsueeper/GetServices?currentFilter=@Model.CurrentFilter">
+    <form action="/Assignsueeper/GetServices?currentFilter=@Model.CurrentFilter" id="frmSearch">
         <div class="form-actions no-color">
-            <p>
-                Search: <input type="text" name="SearchString" value="@Model.CurrentFilter" />
-                <input type="submit" value="Search" class="btn btn-default" style=" background-color: white; color: #fe346e; " /> |
-            </p>
+            <div class="input-group">
+                 <input type="text" id="SearchString" name="SearchString" class="form-control" value="@Model.CurrentFilter" placeholder="">
+                <div class="input-group-append">
+                    <span class="input-group-text" id="btnSearch"><i class="mdi mdi-magnify"></i></span>
+                </div>
+            </div>
         </div>
     </form>
     <div>
@@ -243,6 +245,9 @@
                 alert("Assigned Sucessfully");
 
             }
+            $('#btnSearch').click(function () {
+                $('#frmSearch').submit();
+            });
         </script>
     </div>
 </body>

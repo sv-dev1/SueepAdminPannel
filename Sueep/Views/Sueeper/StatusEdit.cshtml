@@ -23,7 +23,7 @@
                     <span asp-validation-for="serviceid" class="text-danger"></span>
                 </div>*@
                 <div class="form-group">
-                    <label asp-for="Servicestatus" class="control-label"></label>
+                    <label class="control-label">Service Status</label>
                     @Html.DropDownListFor(model => model.Servicestatus,
                                     new List<SelectListItem>()
                                     {

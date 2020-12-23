@@ -162,7 +162,7 @@ namespace Sueep.Controllers
         }
         //Service status here
         [HttpGet]
-        public async Task<IActionResult> status(string sortOrder, string currentFilter, string searchString, int? pageIndex)
+        public async Task<IActionResult> status(string sortOrder, string currentFilter, string searchString, int? pageIndex, string ServiceStatus)
         {
             var serviceList = (from details in db.PersonalInfo
                                join Add in db.AddressInfo on details.Id equals Add.PersonalInfoId
@@ -196,15 +196,29 @@ namespace Sueep.Controllers
             {
                 try
                 {
-                    serviceList = serviceList.Where(t => t.Status.ToLower().Contains(searchString.ToLower()) || t.dateofservice.ToLower().Contains(searchString.ToLower()) || t.FirstName.ToLower().Contains(searchString.ToLower()) || t.LastName.ToLower().Contains(searchString.ToLower()) || t.PersonName.ToLower().Contains(searchString.ToLower()));
+                    serviceList = serviceList.Where(t => t.Status.ToLower().Contains(searchString.ToLower()) || t.dateofservice.ToLower().Contains(searchString.ToLower()) || t.FirstName.ToLower().Contains(searchString.ToLower()) || t.LastName.ToLower().Contains(searchString.ToLower()) || t.PersonName.ToLower().Contains(searchString.ToLower())|| t.Servicestatus.ToLower().Contains(searchString.ToLower()));
                 }
                 catch (Exception)
                 {
                 }
             }
+
+            if (!string.IsNullOrEmpty(ServiceStatus))
+            {
+                
+                serviceList = serviceList.Where(x => x.Servicestatus == ServiceStatus);
+            }
             int pageSize = 15;
-            StatusmodelModel = await PaginatedList<StatusmodelClass>.CreateAsync(
-                serviceList.AsNoTracking(), pageIndex ?? 1, pageSize);
+            try
+            {
+
+                StatusmodelModel = await PaginatedList<StatusmodelClass>.CreateAsync(
+                    serviceList.AsNoTracking(), pageIndex ?? 1, pageSize);
+            }
+            catch (Exception)
+            {
+                StatusmodelModel = new PaginatedList<StatusmodelClass>();
+            }
 
             StatusmodelModel.CurrentFilter = searchString;
             return View(StatusmodelModel);

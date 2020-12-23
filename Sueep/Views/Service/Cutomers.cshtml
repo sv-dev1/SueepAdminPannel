@@ -10,12 +10,14 @@
 
 <h1>Cutomers</h1>
 <body id="services-sec">
-    <form action="/Service/Cutomers?currentFilter=@Model.CurrentFilter">
+    <form action="/Service/Cutomers?currentFilter=@Model.CurrentFilter" id="frmSearch">
         <div class="form-actions no-color">
-            <p>
-                Search: <input type="text" name="SearchString" value="@Model.CurrentFilter" />
-                <input type="submit" value="Search" class="btn btn-default" style=" background-color: white; color: #fe346e; " /> |
-            </p>
+            <div class="input-group">
+                <input type="text" id="SearchString" name="SearchString" class="form-control" value="@Model.CurrentFilter" placeholder="">
+                <div class="input-group-append">
+                    <span class="input-group-text" id="btnSearch"><i class="mdi mdi-magnify"></i></span>
+                </div>
+            </div>
         </div>
     </form>
     <table class="table">
@@ -112,3 +114,8 @@
     </span>
 
 </body>
+<script>
+    $('#btnSearch').click(function () {
+        $('#frmSearch').submit();
+    });
+</script>

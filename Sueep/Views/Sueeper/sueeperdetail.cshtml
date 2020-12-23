@@ -8,6 +8,13 @@
 @*<div>
     <label class="field-validation-error" style="color:red">@Html.DisplayFor(model => model.LoginError)</label>
 </div>*@
+<style>
+    @@media (min-width: 1200px) {
+        .container {
+            min-height: 500px;
+        }
+    }
+</style>
 <div>
     <h4>Sueeper</h4>
     <hr />
@@ -45,7 +52,7 @@
 
 
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Socialsecuritynumber)
+            Social Security Number
         </dt>
 
         <dd class="col-sm-10">
@@ -55,14 +62,14 @@
 
 
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Do_you_have_car)
+           Do you have car
         </dt>
         <dd class="col-sm-10">
             @ViewBag.Do_you_have_car
         </dd>
 
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Can_you_buy_cleaning_products)
+            Can you buy cleaning products
         </dt>
 
         <dd class="col-sm-10">
@@ -70,7 +77,7 @@
         </dd>
 
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Zipcode)
+            Zip Code
         </dt>
         <dd class="col-sm-10">
             @ViewBag.Zipcode

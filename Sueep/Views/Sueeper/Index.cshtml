@@ -11,19 +11,21 @@
     <p>
         <a href="Createsueeper" class="sueeperlink">Create New Sueeper</a>
     </p>
-    <div>
+    @*<div>
         <label style="color:red">@ViewBag.Message</label>
-    </div>
+    </div>*@
 
 
-    <form action="/Sueeper/Index?currentFilter=@Model.CurrentFilter">
-        <div class="form-actions no-color">
-            <p>
-                Search: <input type="text" name="SearchString" value="@Model.CurrentFilter" />
-                <input type="submit" value="Search" class="btn btn-default" style=" background-color: white; color: #fe346e; " /> |
-            </p>
+<form action="/Sueeper/Index?currentFilter=@Model.CurrentFilter" id="frmSearch">
+    <div class="form-actions no-color">
+        <div class="input-group">
+            <input type="text" id="SearchString" name="SearchString" class="form-control" value="@Model.CurrentFilter" placeholder="">
+            <div class="input-group-append">
+                <span class="input-group-text" id="btnSearch"><i class="mdi mdi-magnify"></i></span>
+            </div>
         </div>
-    </form>
+    </div>
+</form>
     <table class="table table-responsive">
         <thead>
             <tr>
@@ -108,3 +110,8 @@
     </span>
 
 </body>
+<script>
+    $('#btnSearch').click(function () {
+        $('#frmSearch').submit();
+    });
+</script>
