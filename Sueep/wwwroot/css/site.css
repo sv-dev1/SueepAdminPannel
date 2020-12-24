@@ -108,10 +108,15 @@ body#services-sec {
 }
 form#frmStatus select#ServiceStatus {
     width: 120px;
-    height: 30px;
+    height: 37px;
+}
+#JobStatus {
+    width: 120px;
+    height: 37px;
 }
 body#services-sec .form-actions.no-color {
     width: 30%;
+    margin-bottom: 14px;
 }
 .form-actions.no-color .input-group-append span {
     padding: 0 9px;
@@ -154,6 +159,8 @@ form#frmStatus {
     border-radius: 3px;
     font-size: 15px;
     text-decoration: none !important;
+    margin-top: -1px;
+    position: absolute;
 }
 #services-sec table.table a {
     color: #fff;
