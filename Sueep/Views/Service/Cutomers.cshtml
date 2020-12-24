@@ -64,7 +64,8 @@
                     </td>
 
                     <td>
-                        @Html.DisplayFor(modelItem => item.JoinDate)
+                        @*@Html.DisplayFor(modelItem => item.JoinDate)*@
+                        @Convert.ToDateTime(item.JoinDate).ToShortDateString()
                     </td>
 
                     <td>

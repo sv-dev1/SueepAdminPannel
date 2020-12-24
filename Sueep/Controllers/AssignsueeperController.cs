@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +23,7 @@ namespace Sueep.Controllers
             db = Db;
         }
         //[HttpGet]
-
+        
         public async Task<IActionResult> GetServices(AssignedSueeper obj, string sortOrder, string currentFilter, string searchString, int? pageIndex)
         {
             var serviceslist = (from details in db.PersonalInfo
@@ -109,7 +110,7 @@ namespace Sueep.Controllers
         }
 
 
-
+        
         [HttpGet]
         public IActionResult AssignSupeer(string serviceId, string serviceDate, string serviceTime, string sueeperId)
         {

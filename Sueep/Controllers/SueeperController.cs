@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Sueep.Helpers;
@@ -9,6 +10,7 @@ using Sueep.Models;
 
 namespace Sueep.Controllers
 {
+    
     public class SueeperController : Controller
     {
         private readonly Admincontext db;
@@ -196,7 +198,7 @@ namespace Sueep.Controllers
             {
                 try
                 {
-                    serviceList = serviceList.Where(t => t.Status.ToLower().Contains(searchString.ToLower()) || t.dateofservice.ToLower().Contains(searchString.ToLower()) || t.FirstName.ToLower().Contains(searchString.ToLower()) || t.LastName.ToLower().Contains(searchString.ToLower()) || t.PersonName.ToLower().Contains(searchString.ToLower())|| t.Servicestatus.ToLower().Contains(searchString.ToLower()));
+                    serviceList = serviceList.Where(t => t.Status.ToLower().Contains(searchString.ToLower()) || t.dateofservice.ToLower().Contains(searchString.ToLower()) || t.FirstName.ToLower().Contains(searchString.ToLower()) || t.LastName.ToLower().Contains(searchString.ToLower()) || t.PersonName.ToLower().Contains(searchString.ToLower()) || t.Servicestatus.ToLower().Contains(searchString.ToLower()));
                 }
                 catch (Exception)
                 {
@@ -205,7 +207,7 @@ namespace Sueep.Controllers
 
             if (!string.IsNullOrEmpty(ServiceStatus))
             {
-                
+
                 serviceList = serviceList.Where(x => x.Servicestatus == ServiceStatus);
             }
             int pageSize = 15;
@@ -229,26 +231,65 @@ namespace Sueep.Controllers
         {
             try
             {
-                if (!db.Servicestatus.Any())
+                //if (!db.Servicestatus.Any())
+                //{
+                //    var cheklist = db.Servicestatus.Where(m => m.serviceid == id).FirstOrDefault();
+                //    return View(cheklist);
+                //}
+
+                var serviceList = (from details in db.PersonalInfo
+                                   join Add in db.AddressInfo on details.Id equals Add.PersonalInfoId
+                                   join TimeP in db.TimeDateInfo on details.Id equals TimeP.PersonalInfoId
+                                   join paytbl in db.PaymentTbl on details.Id equals paytbl.ServiceId
+                                   join servicstatus in db.Servicestatus on Add.Id equals servicstatus.serviceid
+                                   join assintbl in db.AssinSueeper on details.Id equals assintbl.PersonaLInfoId
+
+
+                                   select new StatusmodelClass
+                                   {
+                                       PesonalInfoId = Add.Id,
+                                       FirstName = details.FirstName,
+                                       LastName = details.LastName,
+                                       Servicestatus = servicstatus.Servicestatus,
+                                       Phone = details.Phone,
+                                       ZipCode = details.ZipCode,
+                                       dateofservice = TimeP.DateOfService,
+                                       timeofservice = TimeP.TimeOfService,
+                                       Email = details.Email,
+
+                                       Status = assintbl.JobStatus,
+
+
+                                       Amount = paytbl.PaymentAmount,
+                                       // PersonName = sueep.Name,
+                                   });
+                Servicestatusclass data = new Servicestatusclass();
+                if (id.HasValue)
                 {
-                    var cheklist = db.Servicestatus.Where(m => m.serviceid == id).FirstOrDefault();
-                    return View(cheklist);
+                    data.Servicestatus = serviceList.FirstOrDefault(x => x.PesonalInfoId == id)?.Servicestatus;
                 }
+                return View(data);
             }
             catch (Exception)
             {
                 return View();
             }
-            return View();
+
         }
         [HttpPost]
         public IActionResult StatusEdit(StatusmodelClass model, string status)
         {
-            if (!db.Servicestatus.Any())
+            try
             {
-                var checklist = db.Servicestatus.Where(m => m.serviceid == model.Id).FirstOrDefault();
-                checklist.Servicestatus = model.Servicestatus;
-                db.SaveChanges();
+                var data = db.Servicestatus.FirstOrDefault(x => x.serviceid == model.Id);
+                if (data != null)
+                {
+                    data.Servicestatus = model.Servicestatus;
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception)
+            {
             }
             return RedirectToAction("status");
         }

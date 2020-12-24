@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -21,6 +25,7 @@ namespace Sueep.Controllers
         {
             db = Db;
         }
+        
         public async Task<IActionResult> Services(string search, string jobstatus, DateTime? firstdate, DateTime? enddate, string sortOrder, string currentFilter, string searchString, int? pageIndex)
         {
             //if (TempData["name"] == null)
@@ -116,6 +121,7 @@ namespace Sueep.Controllers
 
         public IActionResult Adminlogin(LoginModel model)
         {
+            
             if (ModelState.IsValid)
             {
                 var check = db.UserRegistration.Where(m => m.Email == model.Email && m.Password == model.password).FirstOrDefault();
@@ -138,6 +144,7 @@ namespace Sueep.Controllers
             }
             return View();
         }
+        
         public IActionResult Dashboard(string search)
         {
             DashBoardModel model = new DashBoardModel();
@@ -203,12 +210,13 @@ namespace Sueep.Controllers
         }
 
 
-        public IActionResult Logout()
+        public async Task<IActionResult> Logout()
         {
             HttpContext.Session.Clear();
-
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Adminlogin");
         }
+        
         [HttpGet]
         public async Task<IActionResult> Cutomers(string sortOrder, string currentFilter, string searchString, int? pageIndex)
         {
@@ -307,7 +315,7 @@ namespace Sueep.Controllers
             return RedirectToAction("Cutomers");
         }
 
-
+        
         [HttpGet]
         public IActionResult GetSueeperList()
         {

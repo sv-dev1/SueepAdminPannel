@@ -6,7 +6,7 @@
 <body id="services-sec">
     <h1>Edit</h1>
 
-       <hr />
+    <hr />
 
     <div class="row">
         <div class="col-md-4">
@@ -18,16 +18,16 @@
                         <span asp-validation-for="StatusId" class="text-danger"></span>
                     </div>*@
                 @*<div class="form-group">
-                    <label asp-for="serviceid" class="control-label"></label>
-                    <input asp-for="serviceid" class="form-control" />
-                    <span asp-validation-for="serviceid" class="text-danger"></span>
-                </div>*@
+                        <label asp-for="serviceid" class="control-label"></label>
+                        <input asp-for="serviceid" class="form-control" />
+                        <span asp-validation-for="serviceid" class="text-danger"></span>
+                    </div>*@
                 <div class="form-group">
                     <label class="control-label">Service Status</label>
                     @Html.DropDownListFor(model => model.Servicestatus,
                                     new List<SelectListItem>()
                                     {
-                                       new SelectListItem() { Text ="Pending", Value = "Pending"},
+                                       new SelectListItem() { Text ="Pending", Value = "Pending", },
                                        new SelectListItem() { Text ="Progress", Value = "Progress" },
                                        new SelectListItem() { Text = "Complete", Value = "Complete" }
                                     },
@@ -42,26 +42,29 @@
             </form>
         </div>
     </div>
-    </body>
-    <div>
-        <a asp-action="Index">Back to List</a>
-    </div>
+</body>
+<div>
+    <a asp-action="status">Back to List</a>
+</div>
 
-    <style>
-        .btn-primary {
-            color: #fff;
-            background-color: #fe346e !important;
-            border-color: #fe346e !important;
-        }
+<style>
+    .btn-primary {
+        color: #fff;
+        background-color: #fe346e !important;
+        border-color: #fe346e !important;
+    }
 
-        select#Servicestatus {
-            width: 100%;
-            margin: 8px 0;
-            padding: 12px 20px;
-            display: inline-block;
-            border: #102d3a;
-            box-sizing: border-box;
-        }
-    </style>
-  
+    select#Servicestatus {
+        width: 100%;
+        margin: 8px 0;
+        padding: 12px 20px;
+        display: inline-block;
+        border: #102d3a;
+        box-sizing: border-box;
+    }
+</style>
+<script>
+    $('#Servicestatus').val('@Model.Servicestatus');
+</script>
+
 
