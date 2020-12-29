@@ -93,13 +93,6 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.FirstName)
                     </td>
-                    @*<td>
-                            @Html.DisplayFor(modelItem => item.Email)
-                        </td>*@
-                    @*<td>
-                            @Html.DisplayFor(modelItem => item.Status)
-                        </td>*@
-
                     <td>
                         @Html.DisplayFor(modelItem => item.dateofservice)
                     </td>
@@ -109,41 +102,82 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Servicestatus)
                     </td>
-                    @*<td>
-                                @Html.DisplayFor(modelItem => item.Gender)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.PersonName)
-                            </td>
 
-
-                        @*<td>
-                            @Html.DisplayFor(modelItem => item.Amount)
-                        </td>*@
-                    @*<td>
-                            @Html.DisplayFor(modelItem => item.LastName)
-                        </td>*@
-                    @*<td>
-                            @Html.DisplayFor(modelItem => item.Phone)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ZipCode)
-                        </td>*@
-                    @*<td>
-                            @Html.DisplayFor(modelItem => item.ServiceTime)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.SueeperId)
-                        </td>*@
 
                     <input type="hidden" value="@item.PesonalInfoId" />
                     <td>
                         @Html.ActionLink("Edit", "StatusEdit", new { id = item.PesonalInfoId })
                         @*@Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ })
                             @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
-                        <a href="javascript:void(0);" data-toggle="modal" data-target="#exampleModal">View Details</a>
+                        <a href="javascript:void(0);" data-toggle="modal" data-target="#exampleModal_@item.PesonalInfoId">View Details</a>
                     </td>
                 </tr>
+
+                <div class="modal fade" id="exampleModal_@item.PesonalInfoId" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Service Detail : @item.FirstName</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                @{
+                                    var data = Model.StatusImageTextList.Where(x => x.ServiceID == item.PesonalInfoId);
+                                }
+                                <div class="tab-content">
+                                    <ul class="nav nav-tabs">
+                                        <li class="active"><a data-toggle="tab" href="#text">Text</a></li>
+                                        <li><a data-toggle="tab" href="#images">Images</a></li>
+                                    </ul>
+
+                                    <div class="tab-content">
+                                        <div id="text" class="tab-pane fade in active show">
+                                            @if (data.Count() > 0)
+                                            {
+                                                <h4>Comments</h4>
+                                                @foreach (var d in data)
+                                                {
+                                                    var by = " By " + (d.P_Id == "0" ? "Sueeper" : "User");
+                                                    <ul>
+                                                        <li>@d.Comment <span style="font-size: 11px;font-family: monospace;">@by  On : @Convert.ToDateTime(d.CreatedDate).ToShortDateString()</span> </li>
+                                                    </ul>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <h6>No Records found!</h6>
+                                            }
+                                        </div>
+                                        <div id="images" class="tab-pane fade">
+                                            @if (data.Count() > 0)
+                                            {
+                                                <h4>Images</h4>
+                                                @foreach (var d in data)
+                                                {
+                                                    var by = " By" + d.P_Id == "0" ? "Sueeper" : "User";
+                                                    <div>
+                                                        <img src="@d.Imageurl" height="100" width="100" />
+                                                        <br /><span style="font-size: 11px;font-family: monospace;">@by  On : @Convert.ToDateTime(d.CreatedDate).ToShortDateString()</span>
+                                                    </div>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <h6>No Records found!</h6>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        @*<div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>*@
+                    </div>
+                </div>
             }
 
             @if (!Model.Any())
@@ -152,43 +186,8 @@
             }
         </tbody>
     </table>
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Service Details</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
 
-                    <div class="tab-content">
-                        <ul class="nav nav-tabs">
-                            <li class="active"><a data-toggle="tab" href="#text">Text</a></li>
-                            <li><a data-toggle="tab" href="#images">Images</a></li>
-                        </ul>
 
-                        <div class="tab-content">
-                            <div id="text" class="tab-pane fade in active show">
-                                <h3>Text Here</h3>
-                                <p>Text ABC</p>
-                            </div>
-                            <div id="images" class="tab-pane fade">
-                                <h3>images here</h3>
-                                <p>ABC</p>
-                            </div>                            
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-            @*<div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>*@
-        </div>
-    </div>
-    </div>
 
     @{
         var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";

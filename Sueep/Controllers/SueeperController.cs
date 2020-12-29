@@ -10,7 +10,7 @@ using Sueep.Models;
 
 namespace Sueep.Controllers
 {
-    
+
     public class SueeperController : Controller
     {
         private readonly Admincontext db;
@@ -194,6 +194,21 @@ namespace Sueep.Controllers
                                    // PersonName = sueep.Name,
                                });
 
+            var rootpath = "http://sueep1.kindlebit.com";
+            var GetImagelistData = (from c in db.AssinSueeper
+                                    join b in db.SueeperImages on c.PersonaLInfoId equals b.ServiceID
+                                    //where c.PersonaLInfoId == ServiceId
+                                    select new GetImagelist
+                                    {
+                                        PictureId = b.PictureId,
+                                        picturePath = b.picturePath,
+                                        Imageurl = rootpath + b.Imageurl,
+                                        SueeperId = b.SueeperId,
+                                        Comment = b.Message,
+                                        CreatedDate = b.img_date,
+                                        ServiceID = b.ServiceID,
+                                        P_Id = b.Pic_val
+                                    }).ToList();
 
             if (!string.IsNullOrEmpty(searchString))
             {
@@ -224,6 +239,8 @@ namespace Sueep.Controllers
             }
 
             StatusmodelModel.CurrentFilter = searchString;
+            StatusmodelModel.StatusImageTextList = GetImagelistData;
+
             return View(StatusmodelModel);
             //return View(serviceList.ToList());
         }

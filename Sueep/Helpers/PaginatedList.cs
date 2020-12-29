@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Sueep.Models;
+
 namespace Sueep.Helpers
 {
     public class PaginatedList<T> : List<T>
@@ -11,7 +13,7 @@ namespace Sueep.Helpers
         public int TotalPages { get; private set; }
         public string CurrentFilter { get; set; }
 
-
+        public List<GetImagelist> StatusImageTextList { get; set; }
         public PaginatedList(List<T> items, int count, int pageIndex, int pageSize)
         {
             PageIndex = pageIndex;

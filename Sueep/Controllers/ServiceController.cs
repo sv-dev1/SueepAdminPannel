@@ -25,7 +25,7 @@ namespace Sueep.Controllers
         {
             db = Db;
         }
-        
+
         public async Task<IActionResult> Services(string search, string jobstatus, DateTime? firstdate, DateTime? enddate, string sortOrder, string currentFilter, string searchString, int? pageIndex)
         {
             //if (TempData["name"] == null)
@@ -121,10 +121,10 @@ namespace Sueep.Controllers
 
         public IActionResult Adminlogin(LoginModel model)
         {
-            
+
             if (ModelState.IsValid)
             {
-                var check = db.UserRegistration.Where(m => m.Email == model.Email && m.Password == model.password&&m.IsRole== "Admin").FirstOrDefault();
+                var check = db.UserRegistration.Where(m => m.Email == model.Email && m.Password == model.password && m.IsRole == "Admin").FirstOrDefault();
                 if (check != null)
                 {
                     HttpContext.Session.SetString("Email", check.Email);
@@ -144,7 +144,7 @@ namespace Sueep.Controllers
             }
             return View();
         }
-        
+
         public IActionResult Dashboard(string search)
         {
             DashBoardModel model = new DashBoardModel();
@@ -209,8 +209,8 @@ namespace Sueep.Controllers
             return View(model);
         }
 
-       
-        public IActionResult statustracking (string Status, int id)
+
+        public IActionResult statustracking(string Status, int id)
         {
             if (Status == "Pending")
             {
@@ -259,7 +259,7 @@ namespace Sueep.Controllers
             {
                 GetImagelist items = new GetImagelist();
 
-              //  Uri baseUri = new Uri(Request.RequestUri.AbsoluteUri.Replace(Request.RequestUri.PathAndQuery, String.Empty));
+                //  Uri baseUri = new Uri(Request.RequestUri.AbsoluteUri.Replace(Request.RequestUri.PathAndQuery, String.Empty));
                 var x = "http://sueep1.kindlebit.com";
                 var a = (from c in db.AssinSueeper
 
@@ -275,10 +275,8 @@ namespace Sueep.Controllers
                              SueeperId = b.SueeperId,
 
                              Comment = b.Message,
-                             img_date = b.img_date,
+                             CreatedDate = b.img_date,
                              ServiceID = id,
-                            // journeyStatus = c.journeystatus,
-                            // Jobstatus = c.JobStatus,
                              P_Id = b.Pic_val
                          }).ToList();
                 return View(a);
@@ -287,43 +285,33 @@ namespace Sueep.Controllers
             {
 
             }
-         //   var data = db.SueeperImages.Where(m => m.PictureId == PictureId).FirstOrDefault();
-           // var datas = ata.Imageurl;
-          //  var imagereturn = "http://sueep1.kindlebit.com" + datas;
+            //   var data = db.SueeperImages.Where(m => m.PictureId == PictureId).FirstOrDefault();
+            // var datas = ata.Imageurl;
+            //  var imagereturn = "http://sueep1.kindlebit.com" + datas;
             return View();
         }
 
-        public async Task<IActionResult> Pastservices(int ServiceId)
+        public async Task<IActionResult> Pastservices(int? ServiceId = 210)
         {
             GetImagelist items = new GetImagelist();
-            
+            var rootpath = "http://sueep1.kindlebit.com";
+            var GetImagelistData = (from c in db.AssinSueeper
+                        join b in db.SueeperImages on c.PersonaLInfoId equals b.ServiceID
+                        //where c.PersonaLInfoId == ServiceId
+                        select new GetImagelist
+                        {
+                            PictureId = b.PictureId,
+                            picturePath = b.picturePath,
+                            Imageurl = rootpath + b.Imageurl,
+                            SueeperId = b.SueeperId,
+                            Comment = b.Message,
+                            CreatedDate = b.img_date,
+                            ServiceID = ServiceId,
+                            P_Id = b.Pic_val
+                        }).ToList();
 
-            //  Uri baseUri = new Uri(Request.RequestUri.AbsoluteUri.Replace(Request.RequestUri.PathAndQuery, String.Empty));
-            var x = "http://sueep1.kindlebit.com";
-           var  a = (from c in db.AssinSueeper
+            return View(GetImagelistData);
 
-                     join b in db.SueeperImages on c.PersonaLInfoId equals b.ServiceID
-                     //join d in db.Messagetbls on c.PersonaLInfoId equals d.serviceid
-
-                     where c.PersonaLInfoId == ServiceId
-                     select new GetImagelist
-                     {
-                         PictureId = b.PictureId,
-                         picturePath = b.picturePath,
-                         Imageurl = x + b.Imageurl,
-                         SueeperId = b.SueeperId,
-
-                         Comment = b.Message,
-                         CreatedDate = b.img_date,
-                         ServiceID = ServiceId,
-                         // journeyStatus = c.journeystatus,
-                         // Jobstatus = c.JobStatus,
-                         P_Id = b.Pic_val
-                     }).ToList();
-
-           
-            return View(a);
-                            
         }
 
         public async Task<IActionResult> Logout()
@@ -332,7 +320,7 @@ namespace Sueep.Controllers
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Adminlogin");
         }
-        
+
         [HttpGet]
         public async Task<IActionResult> Cutomers(string sortOrder, string currentFilter, string searchString, int? pageIndex)
         {
@@ -431,7 +419,7 @@ namespace Sueep.Controllers
             return RedirectToAction("Cutomers");
         }
 
-        
+
         [HttpGet]
         public IActionResult GetSueeperList()
         {
