@@ -28,7 +28,7 @@
                                     new List<SelectListItem>()
                                     {
                                        new SelectListItem() { Text ="Pending", Value = "Pending", },
-                                       new SelectListItem() { Text ="Progress", Value = "Progress" },
+                                       new SelectListItem() { Text ="In Progress", Value = "In Progress" },
                                        new SelectListItem() { Text = "Complete", Value = "Complete" }
                                     },
                                     new { htmlAttributes = new { @class = "form-control" } }
@@ -61,6 +61,13 @@
         display: inline-block;
         border: #102d3a;
         box-sizing: border-box;
+    }
+
+
+    @@media (min-width: 1200px) {
+        .container {
+            min-height: 500px;
+        }
     }
 </style>
 <script>

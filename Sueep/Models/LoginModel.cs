@@ -12,6 +12,7 @@ namespace Sueep.Models
         public String Email { get; set; }
         [Required]
         public string password { get; set; }
+   
 
         public string LoginError { get; set; }
     }

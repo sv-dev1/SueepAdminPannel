@@ -28,5 +28,7 @@ namespace Sueep.Models
         public DbSet<Users>UserRegistration { get; set; }
 
         public DbSet<Servicestatusclass> Servicestatus { get; set; }
+
+        public DbSet<ImagesClasss> SueeperImages { get; set; }
     }
 }

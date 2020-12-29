@@ -65,6 +65,7 @@ namespace Sueep.Controllers
                         tbl.Password = model.Password;
                         tbl.Phone = model.Phone;
                         tbl.Socialsecuritynumber = model.Socialsecuritynumber;
+                        tbl.Zipcode = model.Zipcode;
                         tbl.IsBusy = "Availble";
                         tbl.Can_you_buy_cleaning_products = model.Can_you_buy_cleaning_products;
                         tbl.Do_you_have_car = model.Do_you_have_car;
@@ -170,16 +171,16 @@ namespace Sueep.Controllers
                                join Add in db.AddressInfo on details.Id equals Add.PersonalInfoId
                                join TimeP in db.TimeDateInfo on details.Id equals TimeP.PersonalInfoId
                                join paytbl in db.PaymentTbl on details.Id equals paytbl.ServiceId
-                               join servicstatus in db.Servicestatus on Add.Id equals servicstatus.serviceid
                                join assintbl in db.AssinSueeper on details.Id equals assintbl.PersonaLInfoId
+                               join stsustable in db.Servicestatus on details.Id equals stsustable.serviceid
 
 
                                select new StatusmodelClass
                                {
-                                   PesonalInfoId = Add.Id,
+                                   PesonalInfoId = details.Id,
                                    FirstName = details.FirstName,
                                    LastName = details.LastName,
-                                   Servicestatus = servicstatus.Servicestatus,
+                                   Servicestatus = stsustable.Servicestatus,
                                    Phone = details.Phone,
                                    ZipCode = details.ZipCode,
                                    dateofservice = TimeP.DateOfService,
@@ -229,51 +230,53 @@ namespace Sueep.Controllers
         [HttpGet]
         public IActionResult StatusEdit(int? id)
         {
-            try
-            {
-                //if (!db.Servicestatus.Any())
-                //{
-                //    var cheklist = db.Servicestatus.Where(m => m.serviceid == id).FirstOrDefault();
-                //    return View(cheklist);
-                //}
+            var cheklist = db.Servicestatus.Where(m => m.serviceid == id).FirstOrDefault();
+            return View(cheklist);
+            //try
+            //{
+            //    //if (!db.Servicestatus.Any())
+            //{
+            //    var cheklist = db.Servicestatus.Where(m => m.serviceid == id).FirstOrDefault();
+            //    return View(cheklist);
+            //}
 
-                var serviceList = (from details in db.PersonalInfo
-                                   join Add in db.AddressInfo on details.Id equals Add.PersonalInfoId
-                                   join TimeP in db.TimeDateInfo on details.Id equals TimeP.PersonalInfoId
-                                   join paytbl in db.PaymentTbl on details.Id equals paytbl.ServiceId
-                                   join servicstatus in db.Servicestatus on Add.Id equals servicstatus.serviceid
-                                   join assintbl in db.AssinSueeper on details.Id equals assintbl.PersonaLInfoId
-
-
-                                   select new StatusmodelClass
-                                   {
-                                       PesonalInfoId = Add.Id,
-                                       FirstName = details.FirstName,
-                                       LastName = details.LastName,
-                                       Servicestatus = servicstatus.Servicestatus,
-                                       Phone = details.Phone,
-                                       ZipCode = details.ZipCode,
-                                       dateofservice = TimeP.DateOfService,
-                                       timeofservice = TimeP.TimeOfService,
-                                       Email = details.Email,
-
-                                       Status = assintbl.JobStatus,
+            //    var serviceList = (from details in db.PersonalInfo
+            //                       join Add in db.AddressInfo on details.Id equals Add.PersonalInfoId
+            //                       join TimeP in db.TimeDateInfo on details.Id equals TimeP.PersonalInfoId
+            //                       join paytbl in db.PaymentTbl on details.Id equals paytbl.ServiceId
+            //                       join assintbl in db.AssinSueeper on details.Id equals assintbl.PersonaLInfoId
+            //                       join stsustable in db.Servicestatus on details.Id equals stsustable.serviceid
 
 
-                                       Amount = paytbl.PaymentAmount,
-                                       // PersonName = sueep.Name,
-                                   });
-                Servicestatusclass data = new Servicestatusclass();
-                if (id.HasValue)
-                {
-                    data.Servicestatus = serviceList.FirstOrDefault(x => x.PesonalInfoId == id)?.Servicestatus;
-                }
-                return View(data);
-            }
-            catch (Exception)
-            {
-                return View();
-            }
+            //                       select new StatusmodelClass
+            //                       {
+            //                           PesonalInfoId = Add.Id,
+            //                           FirstName = details.FirstName,
+            //                           LastName = details.LastName,
+            //                           Servicestatus = stsustable.Servicestatus,
+            //                           Phone = details.Phone,
+            //                           ZipCode = details.ZipCode,
+            //                           dateofservice = TimeP.DateOfService,
+            //                           timeofservice = TimeP.TimeOfService,
+            //                           Email = details.Email,
+
+            //                           Status = assintbl.JobStatus,
+
+
+            //                           Amount = paytbl.PaymentAmount,
+            //                           // PersonName = sueep.Name,
+            //                       });
+            //    Servicestatusclass data = new Servicestatusclass();
+            //    if (id.HasValue)
+            //    {
+            //        data.Servicestatus = serviceList.FirstOrDefault(x => x.PesonalInfoId == id)?.Servicestatus;
+            //    }
+            //    return View(data);
+            //}
+            //catch (Exception)
+            //{
+            //    return View();
+            //}
 
         }
         [HttpPost]

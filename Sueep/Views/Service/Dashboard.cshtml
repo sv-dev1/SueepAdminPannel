@@ -149,16 +149,19 @@
                         <tbody>
                             @foreach (var item in Model.GetModel)
                             {
-                                <tr>
-                                    <td style=" text-align: left; ">@(item.FirstName +" "+ item.LastName)</td>
-                                    <td>@item.Email</td>
-                                    <td>@item.Phone</td>
-                                    <td>@item.ZipCode</td>
-                                    <td>@item.dateofservice</td>
-                                    <td>@item.timeofservice</td>
-                                    <td>@(string.Format("{0:0.00}", item.Amount))</td>
-                                    <td><button class="btn btn-sm btn-primary overdue-btn">@item.Status</button></td>
-                                </tr>
+                            <tr>
+                                <td style=" text-align: left; ">@(item.FirstName + " " + item.LastName)</td>
+                                <td>@item.Email</td>
+                                <td>@item.Phone</td>
+                                <td>@item.ZipCode</td>
+                                <td>@item.dateofservice</td>
+                                <td>@item.timeofservice</td>
+                                <input type="hidden" name="id" value="@item.Id" />
+                                <input type="hidden" name="status" value="@item.Status" />
+                                
+                                <td>@(string.Format("{0:0.00}", item.Amount))</td>
+                                <td><button class="btn btn-sm btn-primary overdue-btn assign">@item.Status</button></td>
+                            </tr>
                             }
                             @if (!Model.GetModel.Any())
                             {
@@ -254,4 +257,40 @@
         window.location.href = window.location.origin + window.location.pathname + '?search=' + _data;
 
     });
+</script>
+
+<script>
+    $('.assign').click(function () {
+        debugger
+        var serviceId = document.getElementById("id");
+
+        var Status = document.getElementById("status");
+        
+        
+
+
+        var obj = {};
+        obj.serviceId = serviceId;
+        obj.serviceDate = Status;
+        
+        // alert(obj.value + ',' + $('.hiddenID').val())
+        $.ajax({
+            type: "get",
+            url: "/Service/statustracking",
+            // dataType: "json",
+            cache: false,
+            data: { 'serviceId': serviceId, 'Status': Status, },
+            contentType: 'application/json; charset=utf-8',
+            success: function Complete(response) {
+
+
+                alert(response)
+                window.location.reload();
+            }
+        })
+
+
+    });
+
+
 </script>

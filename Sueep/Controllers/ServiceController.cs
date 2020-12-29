@@ -124,7 +124,7 @@ namespace Sueep.Controllers
             
             if (ModelState.IsValid)
             {
-                var check = db.UserRegistration.Where(m => m.Email == model.Email && m.Password == model.password).FirstOrDefault();
+                var check = db.UserRegistration.Where(m => m.Email == model.Email && m.Password == model.password&&m.IsRole== "Admin").FirstOrDefault();
                 if (check != null)
                 {
                     HttpContext.Session.SetString("Email", check.Email);
@@ -209,6 +209,89 @@ namespace Sueep.Controllers
             return View(model);
         }
 
+       
+        public IActionResult statustracking (string Status, int id)
+        {
+            if (Status == "Pending")
+            {
+                var pendingdata = (from a in db.PersonalInfo
+                                   join b in db.AddressInfo on a.Id equals b.PersonalInfoId
+                                   join c in db.TimeDateInfo on a.Id equals c.PersonalInfoId
+                                   join d in db.PaymentTbl on a.Id equals d.ServiceId
+                                   where a.Id == id
+                                   select new Getmodel
+                                   {
+                                       FirstName = a.FirstName,
+                                       timeofservice = c.TimeOfService,
+                                       dateofservice = c.DateOfService,
+                                       Email = a.Email,
+                                       Amount = d.PaymentAmount
+
+                                   }).FirstOrDefault();
+
+                return View(pendingdata);
+
+            }
+            else if (Status == "In Progress")
+            {
+                var pendingdata = (from a in db.PersonalInfo
+                                   join b in db.AddressInfo on a.Id equals b.PersonalInfoId
+                                   join c in db.TimeDateInfo on a.Id equals c.PersonalInfoId
+                                   join d in db.PaymentTbl on a.Id equals d.ServiceId
+                                   join e in db.AssinSueeper on a.Id equals e.PersonaLInfoId
+                                   join f in db.SueeperInfo on e.sueeperId equals f.Id
+
+                                   where a.Id == id
+                                   select new Getmodel
+                                   {
+                                       FirstName = a.FirstName,
+                                       timeofservice = c.TimeOfService,
+                                       dateofservice = c.DateOfService,
+                                       Email = a.Email,
+                                       Amount = d.PaymentAmount,
+                                       PersonName = f.Name
+
+
+                                   }).FirstOrDefault();
+                return View(pendingdata);
+            }
+            else if (Status == "Complete")
+            {
+                GetImagelist items = new GetImagelist();
+
+              //  Uri baseUri = new Uri(Request.RequestUri.AbsoluteUri.Replace(Request.RequestUri.PathAndQuery, String.Empty));
+                var x = "http://sueep1.kindlebit.com";
+                var a = (from c in db.AssinSueeper
+
+                         join b in db.SueeperImages on c.PersonaLInfoId equals b.ServiceID
+                         //join d in db.Messagetbls on c.PersonaLInfoId equals d.serviceid
+
+                         where c.PersonaLInfoId == id
+                         select new GetImagelist
+                         {
+                             PictureId = b.PictureId,
+                             picturePath = b.picturePath,
+                             Imageurl = x + b.Imageurl,
+                             SueeperId = b.SueeperId,
+
+                             Comment = b.Message,
+                             img_date = b.img_date,
+                             ServiceID = id,
+                            // journeyStatus = c.journeystatus,
+                            // Jobstatus = c.JobStatus,
+                             P_Id = b.Pic_val
+                         }).ToList();
+                return View(a);
+            }
+            else
+            {
+
+            }
+         //   var data = db.SueeperImages.Where(m => m.PictureId == PictureId).FirstOrDefault();
+           // var datas = ata.Imageurl;
+          //  var imagereturn = "http://sueep1.kindlebit.com" + datas;
+            return View();
+        }
 
         public async Task<IActionResult> Logout()
         {
