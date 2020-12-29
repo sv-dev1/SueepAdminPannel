@@ -126,7 +126,64 @@
                                 @{
                                     var data = Model.StatusImageTextList.Where(x => x.ServiceID == item.PesonalInfoId);
                                 }
-                                <div class="tab-content">
+
+
+                                <div class="container">
+                                    
+                                    <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo"> Text </button>
+                                    <div id="demo" class="collapse">
+
+                                        @if (data.Count() > 0)
+                                        {
+                                            <h4>Comments</h4>
+                                            @foreach (var d in data)
+                                            {
+                                                var by = " By " + (d.P_Id == "0" ? "Sueeper" : "User");
+                                                <ul>
+                                                    <li>@d.Comment <span style="font-size: 11px;font-family: monospace;">@by  On : @Convert.ToDateTime(d.CreatedDate).ToShortDateString()</span> </li>
+                                                </ul>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <h6>No Records found!</h6>
+                                        }
+
+                                    </div>
+
+
+                                    <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo2">Images </button>
+                                    <div id="demo2" class="collapse">
+
+                                        @if (data.Count() > 0)
+                                        {
+                                            <h4>Images</h4>
+                                            @foreach (var d in data)
+                                            {
+                                                var by = " By" + d.P_Id == "0" ? "Sueeper" : "User";
+                                                <div>
+                                                    <img src="@d.Imageurl" height="100" width="100" />
+                                                    <br /><span style="font-size: 11px;font-family: monospace;">@by  On : @Convert.ToDateTime(d.CreatedDate).ToShortDateString()</span>
+                                                </div>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <h6>No Records found!</h6>
+                                        }
+
+                                    </div>
+
+                                </div>
+
+
+
+
+
+                                //  please run and check tab is working or not
+
+
+                                @*<div class="tab-content">
                                     <ul class="nav nav-tabs">
                                         <li class="active"><a data-toggle="tab" href="#text">Text</a></li>
                                         <li><a data-toggle="tab" href="#images">Images</a></li>
@@ -169,7 +226,7 @@
                                             }
                                         </div>
                                     </div>
-                                </div>
+                                </div>*@
 
                             </div>
                         </div>
