@@ -293,6 +293,39 @@ namespace Sueep.Controllers
             return View();
         }
 
+        public async Task<IActionResult> Pastservices(int ServiceId)
+        {
+            GetImagelist items = new GetImagelist();
+            
+
+            //  Uri baseUri = new Uri(Request.RequestUri.AbsoluteUri.Replace(Request.RequestUri.PathAndQuery, String.Empty));
+            var x = "http://sueep1.kindlebit.com";
+           var  a = (from c in db.AssinSueeper
+
+                     join b in db.SueeperImages on c.PersonaLInfoId equals b.ServiceID
+                     //join d in db.Messagetbls on c.PersonaLInfoId equals d.serviceid
+
+                     where c.PersonaLInfoId == ServiceId
+                     select new GetImagelist
+                     {
+                         PictureId = b.PictureId,
+                         picturePath = b.picturePath,
+                         Imageurl = x + b.Imageurl,
+                         SueeperId = b.SueeperId,
+
+                         Comment = b.Message,
+                         CreatedDate = b.img_date,
+                         ServiceID = ServiceId,
+                         // journeyStatus = c.journeystatus,
+                         // Jobstatus = c.JobStatus,
+                         P_Id = b.Pic_val
+                     }).ToList();
+
+           
+            return View(a);
+                            
+        }
+
         public async Task<IActionResult> Logout()
         {
             HttpContext.Session.Clear();
