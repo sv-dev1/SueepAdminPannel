@@ -208,7 +208,7 @@ namespace Sueep.Controllers
                                         CreatedDate = b.img_date,
                                         ServiceID = b.ServiceID,
                                         P_Id = b.Pic_val
-                                    }).ToList();
+                                    }).OrderByDescending(m => m.CreatedDate).ToList();
 
             if (!string.IsNullOrEmpty(searchString))
             {
