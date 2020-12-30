@@ -27,6 +27,7 @@ namespace Sueep.Controllers
         }
 
         public async Task<IActionResult> Services(string search, string jobstatus, DateTime? firstdate, DateTime? enddate, string sortOrder, string currentFilter, string searchString, int? pageIndex)
+
         {
             //if (TempData["name"] == null)
             //{
@@ -43,6 +44,7 @@ namespace Sueep.Controllers
                                join TimeP in db.TimeDateInfo on details.Id equals TimeP.PersonalInfoId
                                join paytbl in db.PaymentTbl on details.Id equals paytbl.ServiceId
                                join assintbl in AssinSueeper on details.Id equals assintbl.PersonaLInfoId
+                               join statustable in db.Servicestatus on details.Id equals statustable.serviceid
                                join sueep in db.SueeperInfo on assintbl.sueeperId equals sueep.Id
 
                                select new Getmodel
@@ -55,7 +57,7 @@ namespace Sueep.Controllers
                                    dateofservice = TimeP.DateOfService,
                                    timeofservice = TimeP.TimeOfService,
                                    Email = details.Email,
-                                   Status = assintbl.JobStatus,
+                                   Status = statustable.Servicestatus,
 
 
                                    Amount = paytbl.PaymentAmount,

@@ -9,19 +9,20 @@
     <hr />
 
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-12 box-margin-sec">
+
             <form asp-action="StatusEdit">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 @*<div class="form-group">
-                        <label asp-for="StatusId" class="control-label"></label>
-                        <input asp-for="StatusId" class="form-control" />
-                        <span asp-validation-for="StatusId" class="text-danger"></span>
-                    </div>*@
+                <label asp-for="StatusId" class="control-label"></label>
+                <input asp-for="StatusId" class="form-control" />
+                <span asp-validation-for="StatusId" class="text-danger"></span>
+            </div>*@
                 @*<div class="form-group">
-                        <label asp-for="serviceid" class="control-label"></label>
-                        <input asp-for="serviceid" class="form-control" />
-                        <span asp-validation-for="serviceid" class="text-danger"></span>
-                    </div>*@
+                <label asp-for="serviceid" class="control-label"></label>
+                <input asp-for="serviceid" class="form-control" />
+                <span asp-validation-for="serviceid" class="text-danger"></span>
+            </div>*@
                 <div class="form-group">
                     <label class="control-label">Service Status</label>
                     @Html.DropDownListFor(model => model.Servicestatus,
@@ -40,12 +41,13 @@
                     <input type="submit" value="Update" class="btn btn-primary" />
                 </div>
             </form>
+            <div class="stsaus-sec">
+                <a asp-action="status">Back to List</a>
+            </div>
         </div>
     </div>
 </body>
-<div>
-    <a asp-action="status">Back to List</a>
-</div>
+
 
 <style>
     .btn-primary {

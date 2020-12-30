@@ -10,149 +10,201 @@
 
 <body id="services-sec">
 
-    <div class="job-status">
+    
         @using (Html.BeginForm("Services", "Service", FormMethod.Get))
         {
+        <form action="/Service/Services?currentFilter=@Model.CurrentFilter" id="frmSearch">
+            <div class="job-statuss-new">
             <b>Job Status: </b>
             @Html.DropDownList("JobStatus", new List<SelectListItem>
         {
-            new SelectListItem{ Text="All", Value = "All" },
-            new SelectListItem{ Text="Processing", Value = "Processing" },
-            new SelectListItem{ Text="Incoming", Value = "Incoming" },
-            new SelectListItem{ Text="Successful", Value = "Successful" },
-            new SelectListItem{ Text="Confirmed", Value = "Confirmed" },
+             new SelectListItem{ Text="All", Value = "All" },
+                        new SelectListItem{ Text="Pending", Value = "Pending" },
+                        new SelectListItem{ Text="In Progress", Value = "In Progress" },
+                        new SelectListItem{ Text="Complete", Value = "Complete" },
          })
 
 
             <b>From : </b> @Html.TextBox("firstdate", "", new { @class = "datepicker", @type = "date" })
             <b> To : </b> @Html.TextBox("enddate", "", new { @class = "datepicker", @type = "date" })
-            <br />
-        }
-    </div>
-    <form action="/Service/Services?currentFilter=@Model.CurrentFilter" id="frmSearch">
-        <div class="form-actions no-color">
-            <div class="input-group">
-                <input type="text" id="SearchString" name="SearchString" class="form-control" value="@Model.CurrentFilter" placeholder="">
-                <div class="input-group-append">
-                    <span class="input-group-text" id="btnSearch"><i class="mdi mdi-magnify"></i></span>
-                </div>
             </div>
-        </div>
-    </form>
-    <table class="table">
-        <thead>
-            <tr>
+            <div class="search-bar-sec">
+            <b> Search : </b>
+            @*//@Html.RadioButton("option", "PersonName") <text>Sueeper Name</text>
+            //   @Html.RadioButton("option", "FirstName")<text>Service Name</text>*@
+            @Html.TextBox("search") <input type="submit" name="submit" id="btmsrch" value="Search" />
+            </div>
+
+        </form>
+
+                @*<b>Job Status: </b>
+                        @Html.DropDownList("JobStatus", new List<SelectListItem>
+                    {
+                        new SelectListItem{ Text="All", Value = "All" },
+                        new SelectListItem{ Text="Pending", Value = "Pending" },
+                        new SelectListItem{ Text="In Progress", Value = "In Progress" },
+                        new SelectListItem{ Text="Complete", Value = "Complete" },
+
+                     })
 
 
-                <th>
-                    Status
-                </th>
-                <th>
-                    Date Of Service
-                </th>
-                <th>
-                    Time Of Service
-                </th>
+                        <b>From : </b> @Html.TextBox("firstdate", "", new { @class = "datepicker", @type = "date" })
+                        <b> To : </b> @Html.TextBox("enddate", "", new { @class = "datepicker", @type = "date" })
+                        <br />
+                    }
+                </div>
+                <form action="/Service/Services?currentFilter=@Model.CurrentFilter" id="frmSearch">
+                    <div class="form-actions no-color">
+                        <div class="input-group">
+                            <input type="text" id="SearchString" name="SearchString" class="form-control" value="@Model.CurrentFilter" placeholder="">
+                            <div class="input-group-append">
+                                <span class="input-group-text"  id="btnSearch"><i class="mdi mdi-magnify"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </form>*@
+                }
+                <table class="table">
+                    <thead>
+                        <tr>
 
 
-                <th>
-                    Sueeper Name
-                </th>
-
-                <th>
-                    User Name
-                </th>
-                <th>
-                    Amount
-                </th>
-
-                <th>
-                    Phone
-                </th>
+                            <th>
+                                Status
+                            </th>
+                            <th>
+                                Date Of Service
+                            </th>
+                            <th>
+                                Time Of Service
+                            </th>
 
 
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
+                            <th>
+                                Sueeper Name
+                            </th>
+
+                            <th>
+                                User Name
+                            </th>
+                            <th>
+                                Amount
+                            </th>
+
+                            <th>
+                                Phone
+                            </th>
 
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Status)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.dateofservice)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.timeofservice)
-                    </td>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
 
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PersonName)
-                    </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Status)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.dateofservice)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.timeofservice)
+                                </td>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FirstName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Amount)
-                    </td>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Phone)
-                    </td>
-                </tr>
-            }
-            @if (!Model.Any())
-            {
-                <tr><td>No Records found</td></tr>
-            }
-        </tbody>
-    </table>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PersonName)
+                                </td>
 
-    @{
-        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
-        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
-    }
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.FirstName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Amount)
+                                </td>
 
-    <a href="/Service/Services?PageIndex=@(Model.PageIndex - 1)&searchString=@Model.CurrentFilter"
-       class="btn btn-default @prevDisabled" style=" background-color: white; color: #fe346e; ">
-        Previous
-    </a>
-    <a href="/Service/Services?PageIndex=@(Model.PageIndex + 1)&searchString=@Model.CurrentFilter"
-       class="btn btn-default @nextDisabled" style=" background-color: white; color: #fe346e; ">
-        Next
-    </a>
-    <hr />
-    <span>
-        Showing Page @Model.PageIndex of @Model.TotalPages
-    </span>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Phone)
+                                </td>
+                            </tr>
+                        }
+                        @if (!Model.Any())
+                        {
+                            <tr><td>No Records found</td></tr>
+                        }
+                    </tbody>
+                </table>
+
+                @{
+                    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+                    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+                }
+
+                <a href="/Service/Services?PageIndex=@(Model.PageIndex - 1)&searchString=@Model.CurrentFilter"
+                   class="btn btn-default @prevDisabled" style=" background-color: white; color: #fe346e; ">
+                    Previous
+                </a>
+                <a href="/Service/Services?PageIndex=@(Model.PageIndex + 1)&searchString=@Model.CurrentFilter"
+                   class="btn btn-default @nextDisabled" style=" background-color: white; color: #fe346e; ">
+                    Next
+                </a>
+                <hr />
+                <span>
+                    Showing Page @Model.PageIndex of @Model.TotalPages
+                </span>
 
 </body>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 
-<script type="text/javascript">
-    $('#btnSearch').click(function () {
-        $('#frmSearch').submit();
-    });
+        <script type="text/javascript">
+            $('#btnSearch').click(function () {
+                $('#frmSearch').submit();
+            });
 
-    //$(document).ready(function () {
-    //    var $j = jQuery.noConflict();
+            $(document).ready(function () {
+                var $j = jQuery.noConflict();
 
-    //    $j('.date-picker').datepicker();
-    //});
-
-
-    $('#JobStatus').change(function () {
-        debugger
-        $('#btmsrch').trigger('click')
-
-    });
+                $j('.datepicker').datepicker();
+            });
 
 
-</script>
+            $('#JobStatus').change(function () {
+                debugger
+                $('#btnSearch').trigger('click')
+
+            });
+
+
+
+
+        </script>*@
+
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            var $j = jQuery.noConflict();
+
+            $j('.date-picker').datepicker();
+        });
+
+
+        $('#JobStatus').change(function () {
+            debugger
+            $('#btmsrch').trigger('click')
+
+        });
+        $('#btmsrch').click(function () {
+            $('#frmSearch').submit();
+        });
+
+    </script>
