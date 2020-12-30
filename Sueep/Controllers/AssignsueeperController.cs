@@ -23,7 +23,7 @@ namespace Sueep.Controllers
             db = Db;
         }
         //[HttpGet]
-        
+        [Authorize]
         public async Task<IActionResult> GetServices(AssignedSueeper obj, string sortOrder, string currentFilter, string searchString, int? pageIndex)
         {
             var serviceslist = (from details in db.PersonalInfo

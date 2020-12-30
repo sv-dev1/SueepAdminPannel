@@ -21,6 +21,7 @@ namespace Sueep.Controllers
         {
             db = Db;
         }
+        [Authorize]
         public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageIndex)
         {
             var sueeperlist = (IQueryable<Sueeper>)db.SueeperInfo;
@@ -164,6 +165,7 @@ namespace Sueep.Controllers
             return View();
         }
         //Service status here
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> status(string sortOrder, string currentFilter, string searchString, int? pageIndex, string ServiceStatus)
         {

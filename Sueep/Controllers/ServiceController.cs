@@ -26,6 +26,7 @@ namespace Sueep.Controllers
             db = Db;
         }
 
+        [Authorize]
         public async Task<IActionResult> Services(string search, string jobstatus, DateTime? firstdate, DateTime? enddate, string sortOrder, string currentFilter, string searchString, int? pageIndex)
 
         {
@@ -130,10 +131,22 @@ namespace Sueep.Controllers
                 if (check != null)
                 {
                     HttpContext.Session.SetString("Email", check.Email);
-                    //TempData["name"] = "check"; 
-                    //return RedirectToAction()
-                    // Session["VariableName"] = check.RegisterId;
+                    var claims = new List<Claim>();
 
+                    claims.Add(new Claim(ClaimTypes.Name, check.Email));
+
+                    //string[] roles = check.IsRole.Split(",");
+
+                    //foreach (string role in roles)
+                    //{
+                    //    claims.Add(new Claim(ClaimTypes.Role, role));
+                    //}
+
+                    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    var principal = new ClaimsPrincipal(identity);
+                    var props = new AuthenticationProperties();
+                    props.IsPersistent = true;
+                    HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, props).Wait();
                     return RedirectToAction("Dashboard", "Service", new { area = "" });
 
                 }
@@ -146,7 +159,7 @@ namespace Sueep.Controllers
             }
             return View();
         }
-
+        [Authorize]
         public IActionResult Dashboard(string search)
         {
             DashBoardModel model = new DashBoardModel();
@@ -322,7 +335,7 @@ namespace Sueep.Controllers
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Adminlogin");
         }
-
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> Cutomers(string sortOrder, string currentFilter, string searchString, int? pageIndex)
         {
