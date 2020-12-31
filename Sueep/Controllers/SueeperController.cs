@@ -44,6 +44,7 @@ namespace Sueep.Controllers
             return View(getModel);
             //return View(sueeperlist);
         }
+        [Authorize]
         [HttpGet]
         public IActionResult Createsueeper()
         {
@@ -97,6 +98,7 @@ namespace Sueep.Controllers
             }
             return View();
         }
+        [Authorize]
         [HttpGet]
         public IActionResult Edit(int id)
         {
@@ -117,6 +119,7 @@ namespace Sueep.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+        [Authorize]
         public IActionResult deleteSuueeper(int? id)
         {
             var checktbl = db.SueeperInfo.Where(m => m.Id == id).FirstOrDefault();
@@ -129,7 +132,7 @@ namespace Sueep.Controllers
             }
             return View("Index");
         }
-
+        [Authorize]
         public IActionResult sueeperdetail(int id)
 
         {
@@ -246,6 +249,7 @@ namespace Sueep.Controllers
             return View(StatusmodelModel);
             //return View(serviceList.ToList());
         }
+        [Authorize]
         [HttpGet]
         public IActionResult StatusEdit(int? id)
         {

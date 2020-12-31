@@ -110,7 +110,7 @@ namespace Sueep.Controllers
         }
 
 
-        
+        [Authorize]
         [HttpGet]
         public IActionResult AssignSupeer(string serviceId, string serviceDate, string serviceTime, string sueeperId)
         {
@@ -155,8 +155,8 @@ namespace Sueep.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet]
-
         public IActionResult Getsueeper(int id)
         {
             // var findtotal = "";

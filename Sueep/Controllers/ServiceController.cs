@@ -109,7 +109,7 @@ namespace Sueep.Controllers
             //return View(serviceList);
 
         }
-
+        [Authorize]
         public IActionResult CreateServices()
         {
             return View();
@@ -362,7 +362,7 @@ namespace Sueep.Controllers
             //return View(customerslist);
         }
 
-
+        [Authorize]
         public ActionResult Edit(int id)
         {
             var editdata = db.UserRegistration.Where(m => m.RegisterId == id).FirstOrDefault();
@@ -434,7 +434,7 @@ namespace Sueep.Controllers
             return RedirectToAction("Cutomers");
         }
 
-
+        [Authorize]
         [HttpGet]
         public IActionResult GetSueeperList()
         {
