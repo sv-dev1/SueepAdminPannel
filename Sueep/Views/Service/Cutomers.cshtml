@@ -13,7 +13,7 @@
     <form action="/Service/Cutomers?currentFilter=@Model.CurrentFilter" id="frmSearch">
         <div class="form-actions no-color">
             <div class="input-group">
-                <input type="text" id="SearchString" name="SearchString" class="form-control" value="@Model.CurrentFilter" placeholder="">
+                <input type="text" id="SearchString" name="SearchString" class="form-control" value="@Model.CurrentFilter" placeholder="Search...">
                 <div class="input-group-append">
                     <span class="input-group-text" id="btnSearch"><i class="mdi mdi-magnify"></i></span>
                 </div>
@@ -34,16 +34,14 @@
                     Join Date
                 </th>
 
-                <th>
+                @*<th>
                     Gender
                 </th>
                 <th>
                     Phone Number
-                </th>
+                </th>*@
 
-                <th>
-                    Country
-                </th>
+               
 
                 <th>
                     City
@@ -68,16 +66,14 @@
                         @Convert.ToDateTime(item.JoinDate).ToShortDateString()
                     </td>
 
-                    <td>
+                    @*<td>
                         @Html.DisplayFor(modelItem => item.Gender)
-                    </td>
-                    <td>
+                    </td>*@
+                    @*<td>
                         @Html.DisplayFor(modelItem => item.PhoneNumber)
-                    </td>
+                    </td>*@
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Country)
-                    </td>
+                   
 
                     <td>
                         @Html.DisplayFor(modelItem => item.City)

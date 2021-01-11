@@ -34,5 +34,6 @@ namespace Sueep.Models
         public string lng { get; set; }
         public string lat { get; set; }
         public string IsBusy { get; set; }
+        public string val { get; set; }
     }
 }

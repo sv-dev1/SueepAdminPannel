@@ -16,7 +16,7 @@
     }
 </style>
 <div>
-    <h4>Sueeper</h4>
+    <h4>Sueeper Detail</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2" hidden="hidden">
@@ -61,23 +61,9 @@
 
 
 
-        <dt class="col-sm-2">
-           Do you have car
-        </dt>
-        <dd class="col-sm-10">
-            @ViewBag.Do_you_have_car
-        </dd>
 
         <dt class="col-sm-2">
-            Can you buy cleaning products
-        </dt>
-
-        <dd class="col-sm-10">
-            @ViewBag.Can_you_buy_cleaning_products
-        </dd>
-
-        <dt class="col-sm-2">
-            Zip Code
+            Zipcode
         </dt>
         <dd class="col-sm-10">
             @ViewBag.Zipcode
@@ -104,9 +90,21 @@
 <div>
     @*<input type="submit" id="@ViewBag.Id" value=" show" />*@
 
-    @Html.ActionLink("Total Services", "Totalservices", new { sueeperid = @ViewBag.Id })
+    @*@Html.ActionLink("Total Services", "Totalservices", new { sueeperid = @ViewBag.Id })*@
 
     <a href="#" value=" @ViewBag.Id"></a>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" class="stsausseca">Back to List</a>
 
 </div>
+<style>
+    body {
+        margin-bottom: 0px;
+        background-color: #102d3a;
+        color: white;
+    }
+    .stsausseca {
+        color: #fff;
+        text-decoration: none;
+    }
+   
+</style>

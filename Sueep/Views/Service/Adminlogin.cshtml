@@ -6,6 +6,7 @@
 
 
 <hr />
+
 <div>
     @if (!string.IsNullOrEmpty(ViewBag.message))
     {
@@ -17,6 +18,9 @@
         <h1 class="display-4">Welcome</h1>
         <p>Know about me <a href="https://sueep.com">Sueep.com</a>.</p>
     </div>
+    <div style="text-align:center">
+        <label class="field-validation-error" style="color:red">@Html.DisplayFor(model => model.LoginError)</label>
+    </div>
     <div style="height:20px"></div>
 </div>
 <div class="row">
@@ -25,12 +29,12 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" value="Test@gmail.com"/>
+                <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label  class="control-label">Password</label>
-                <input type="password" asp-for="password" class="form-control" value="123" />
+                <input type="password" asp-for="password" class="form-control" />
                 <span asp-validation-for="password" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -39,19 +43,19 @@
         </form>
     </div>
 </div>
-<div>
-    <label class="field-validation-error" style="color:red">@Html.DisplayFor(model => model.LoginError)</label>
-</div>
+
 
 <div class="ctx">
-    <a asp-action="Index">Forgot Password</a>
+    @*<a asp-action="Index">Forgot Password</a>*@
 </div>
 
 <style>
     .panel-sec form {
         width: 350px;
-        margin: 0 auto;
+        margin: 0 auto 30px;
         text-align: left;
+        border: 2px solid #fe346e !important;
+        padding: 30px;
     }
 
     h1.display-4 {

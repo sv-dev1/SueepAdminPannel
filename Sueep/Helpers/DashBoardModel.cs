@@ -14,6 +14,7 @@ namespace Sueep.Helpers
     public class SueeperViewModel
     {
         public int Id { get; set; }
+        public int serviceid { get; set; }
         public string Name { get; set; }
         public int? SelectedValue { get; set; }
     }

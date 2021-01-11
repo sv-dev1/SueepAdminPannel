@@ -7,7 +7,7 @@
     <form action="/Assignsueeper/GetServices?currentFilter=@Model.CurrentFilter" id="frmSearch">
         <div class="form-actions no-color">
             <div class="input-group">
-                 <input type="text" id="SearchString" name="SearchString" class="form-control" value="@Model.CurrentFilter" placeholder="">
+                <input type="text" id="SearchString" name="SearchString" class="form-control" value="@Model.CurrentFilter" placeholder="Search...">
                 <div class="input-group-append">
                     <span class="input-group-text" id="btnSearch"><i class="mdi mdi-magnify"></i></span>
                 </div>
@@ -58,7 +58,7 @@
                                 @* @Html.DropDownList("@item.Id", new SelectList(ViewBag.sueepers, " Id", "Name"))*@
 
                                 <select id="@item.Id" class="form-control Sueeper" name="SueeperId">
-                                    <option>Select Sueeper</option>
+                                    <option value="0">Select Sueeper</option>
                                 </select>
                                 @*s<select id="@item.ZipCode class="ddlS"><option value="0">--Select Sueeper--</option></select>*@
                                 <input type="hidden" id="hiddenselected" value="0" class="hiddenselectedValue" />
@@ -78,7 +78,7 @@
                             <td>
 
                                 @*<input type="submit" onclick="Save('@item.Id','@item.dateofservice','@item.timeofservice')" value="Assign" id="btnSubmit" class="btn btn-primary" />*@
-                                <imput typeof="button" class="btn btn-primary assign">Assign</imput>
+                                <imput typeof="button" class="btn btnprimary assign">Assign</imput>
                             </td>
                             <td></td>
 
@@ -133,16 +133,23 @@
                         data: obj,
                         contentType: 'application/json; charset=utf-8',
                         success: function Complete(response) {
-                            // console.log(response);
-                            debugger;
+                             console.log("res",response);
+                            //debugger;
                             $.each(response, function (id, name) {
+                                debugger;
                                 $('#' + Id)
                                     .append($("<option></option>")
                                         .attr("value", name.id)
                                         .text(name.name));
-                                if (name.id == name.selectedValue) {
-                                    $("option[value="+name.id+"]").prop("selected", "selected")
+                                if (name.selectedValue == null) {
+                                    $('#' + name.serviceid).val(0);
+                                } else {
+                                    $('#' + name.serviceid).val(name.selectedValue);
                                 }
+                                //if (name.id == name.selectedValue) {
+                                //    $("option[value="+name.id+"]").prop("selected", "selected")
+                                //}
+
 
                             });
                         }
@@ -267,5 +274,11 @@
     td {
         padding: 1px 2px;
         margin: 6px 0;
+    }
+
+    .btnprimary {
+        color: #fff;
+        background-color: #fe346e;
+        border-color: #102d3a;
     }
 </style>

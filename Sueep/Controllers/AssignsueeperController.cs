@@ -100,6 +100,7 @@ namespace Sueep.Controllers
                 lstsueeper.Add(new SueeperViewModel
                 {
                     Id = item.Id,
+                    serviceid=Id,
                     Name = item.Name,
                     SelectedValue = servicedetail?.sueeperId
 
@@ -131,8 +132,7 @@ namespace Sueep.Controllers
                     tbl.createDate = DateTime.Now;
                     db.AssinSueeper.Add(tbl);
                     db.SaveChanges();
-
-                    savesueeperid(serviceId, sueeperId);
+                   Changestatus(tbl.PersonaLInfoId, sueeperId);
                     ModelState.Clear();
                     return Json("Assigned Successfully");
 
@@ -144,13 +144,14 @@ namespace Sueep.Controllers
             return Json("Please select sueeper");
         }
 
-        public void savesueeperid(string serviceid, string sueeperid)
+        public void Changestatus(int? serviceid  , string sueeperid)
         {
-            var check = db.Servicestatus.Where(m => m.serviceid == Convert.ToInt32(serviceid)).FirstOrDefault();
+          //  var sueepid = db.Servicestatus.Where(s => s.serviceid == serviceid).FirstOrDefault();
+            var check = db.Servicestatus.Where(m => m.serviceid == serviceid).FirstOrDefault();
             if (check != null)
             {
                 check.SueeperId = Convert.ToInt32(sueeperid);
-                check.Servicestatus = "Progress";
+                check.Servicestatus = "In Progress";
                 db.SaveChanges();
             }
         }

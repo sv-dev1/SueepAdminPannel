@@ -44,9 +44,11 @@ namespace Sueep.Controllers
                                join Add in db.AddressInfo on details.Id equals Add.PersonalInfoId
                                join TimeP in db.TimeDateInfo on details.Id equals TimeP.PersonalInfoId
                                join paytbl in db.PaymentTbl on details.Id equals paytbl.ServiceId
-                               join assintbl in AssinSueeper on details.Id equals assintbl.PersonaLInfoId
+                              // join assintbl in AssinSueeper on details.Id equals assintbl.PersonaLInfoId
                                join statustable in db.Servicestatus on details.Id equals statustable.serviceid
-                               join sueep in db.SueeperInfo on assintbl.sueeperId equals sueep.Id
+                               join sueep in db.SueeperInfo on statustable.SueeperId equals sueep.Id
+
+                              
 
                                select new Getmodel
                                {
@@ -85,7 +87,7 @@ namespace Sueep.Controllers
             //}
             if (!String.IsNullOrEmpty(search))
             {
-                serviceList = serviceList.Where(m => m.PersonName.Contains(search));
+                serviceList = serviceList.Where(m => m.PersonName.ToLower().Contains(search));
             }
 
 
@@ -152,7 +154,7 @@ namespace Sueep.Controllers
                 }
                 else
                 {
-                    model.LoginError = "Email or Password is incorrect";
+                    model.LoginError = "Email or Password is Incorrect";
 
                     return View("Adminlogin", model);
                 }
@@ -163,10 +165,89 @@ namespace Sueep.Controllers
         public IActionResult Dashboard(string search)
         {
             DashBoardModel model = new DashBoardModel();
-            var pendingsstatus = db.Servicestatus.Where(m => m.Servicestatus == "Pending").Count();
+
+            var pendingsstatus = (from details in db.PersonalInfo
+                                  join Add in db.AddressInfo on details.Id equals Add.PersonalInfoId
+                                  join TimeP in db.TimeDateInfo on details.Id equals TimeP.PersonalInfoId
+                                  join paytbl in db.PaymentTbl on details.Id equals paytbl.ServiceId
+                                  // join assintbl in db.AssinSueeper on details.Id equals assintbl.PersonaLInfoId
+                                  join stsustable in db.Servicestatus on details.Id equals stsustable.serviceid
+
+                                  where stsustable.Servicestatus == "Pending"
+                                  select new StatusmodelClass
+                                  {
+                                      PesonalInfoId = details.Id,
+                                      FirstName = details.FirstName,
+                                      LastName = details.LastName,
+                                      Servicestatus = stsustable.Servicestatus,
+                                      Phone = details.Phone,
+                                      ZipCode = details.ZipCode,
+                                      dateofservice = TimeP.DateOfService,
+                                      timeofservice = TimeP.TimeOfService,
+                                      Email = details.Email,
+
+                                      Status = stsustable.Servicestatus,
+
+
+                                      Amount = paytbl.PaymentAmount,
+                                      // PersonName = sueep.Name,
+                                  }).Count();
+                //db.Servicestatus.Where(m => m.Servicestatus == "Pending").Count();
             // var pendings= statusdata.
-            var Progresssstatus = db.Servicestatus.Where(m => m.Servicestatus == "In Progress").Count();
-            var Completestatus = db.Servicestatus.Where(m => m.Servicestatus == "Complete").Count();
+            var Progresssstatus = (from details in db.PersonalInfo
+                                   join Add in db.AddressInfo on details.Id equals Add.PersonalInfoId
+                                   join TimeP in db.TimeDateInfo on details.Id equals TimeP.PersonalInfoId
+                                   join paytbl in db.PaymentTbl on details.Id equals paytbl.ServiceId
+                                   // join assintbl in db.AssinSueeper on details.Id equals assintbl.PersonaLInfoId
+                                   join stsustable in db.Servicestatus on details.Id equals stsustable.serviceid
+
+                                   where stsustable.Servicestatus == "In Progress"
+                                   select new StatusmodelClass
+                                   {
+                                       PesonalInfoId = details.Id,
+                                       FirstName = details.FirstName,
+                                       LastName = details.LastName,
+                                       Servicestatus = stsustable.Servicestatus,
+                                       Phone = details.Phone,
+                                       ZipCode = details.ZipCode,
+                                       dateofservice = TimeP.DateOfService,
+                                       timeofservice = TimeP.TimeOfService,
+                                       Email = details.Email,
+
+                                       Status = stsustable.Servicestatus,
+
+
+                                       Amount = paytbl.PaymentAmount,
+                                       // PersonName = sueep.Name,
+                                   }).Count();
+            //db.Servicestatus.Where(m => m.Servicestatus == "In Progress").Count();
+            var Completestatus = (from details in db.PersonalInfo
+                                  join Add in db.AddressInfo on details.Id equals Add.PersonalInfoId
+                                  join TimeP in db.TimeDateInfo on details.Id equals TimeP.PersonalInfoId
+                                  join paytbl in db.PaymentTbl on details.Id equals paytbl.ServiceId
+                                  // join assintbl in db.AssinSueeper on details.Id equals assintbl.PersonaLInfoId
+                                  join stsustable in db.Servicestatus on details.Id equals stsustable.serviceid
+
+                                  where stsustable.Servicestatus == "Complete"
+                                  select new StatusmodelClass
+                                  {
+                                      PesonalInfoId = details.Id,
+                                      FirstName = details.FirstName,
+                                      LastName = details.LastName,
+                                      Servicestatus = stsustable.Servicestatus,
+                                      Phone = details.Phone,
+                                      ZipCode = details.ZipCode,
+                                      dateofservice = TimeP.DateOfService,
+                                      timeofservice = TimeP.TimeOfService,
+                                      Email = details.Email,
+
+                                      Status = stsustable.Servicestatus,
+
+
+                                      Amount = paytbl.PaymentAmount,
+                                      // PersonName = sueep.Name,
+                                  }).Count();
+            //db.Servicestatus.Where(m => m.Servicestatus == "Complete").Count();
 
             // var listdata=(from a in db.AssinSueeper
 
@@ -188,8 +269,8 @@ namespace Sueep.Controllers
                                join Add in db.AddressInfo on details.Id equals Add.PersonalInfoId
                                join TimeP in db.TimeDateInfo on details.Id equals TimeP.PersonalInfoId
                                join paytbl in db.PaymentTbl on details.Id equals paytbl.ServiceId
-                               join assintbl in db.AssinSueeper on details.Id equals assintbl.PersonaLInfoId
-                               join stsustable in db.Servicestatus on assintbl.PersonaLInfoId equals stsustable.serviceid
+                               // join assintbl in db.AssinSueeper on details.Id equals assintbl.PersonaLInfoId
+                               join stsustable in db.Servicestatus on details.Id equals stsustable.serviceid
 
                                select new Getmodel
                                {
@@ -211,9 +292,11 @@ namespace Sueep.Controllers
                                }).OrderByDescending(m => m.dateofservice).ToList();
 
             DateTime today = DateTime.Now;
-            DateTime seventhday = DateTime.Now.Date.AddDays(-7);
+            DateTime seventhday = today.AddDays(-7.0);
+            //var seventhday
+            //DateTime seventhday = DateTime.Now.Date.AddDays(-7.0);
             // seventhday = seventhday.AddDays(-7);    
-            serviceList = serviceList.Where(x => Convert.ToDateTime(x.dateofservice) <= today && Convert.ToDateTime(x.dateofservice) <= seventhday).ToList();
+            serviceList = serviceList.Where(x => Convert.ToDateTime(x.dateofservice) <= today && Convert.ToDateTime(x.dateofservice) >= seventhday).ToList();
             if (!string.IsNullOrEmpty(search))
             {
                 string temp = search.ToLower();
@@ -340,7 +423,7 @@ namespace Sueep.Controllers
         public async Task<IActionResult> Cutomers(string sortOrder, string currentFilter, string searchString, int? pageIndex)
         {
             //var customerslist = db.UserRegistration.ToList();
-            var customerslist = (IQueryable<Users>)db.UserRegistration;
+            var customerslist = (IQueryable<Users>)db.UserRegistration.Where(m=>m.IsRole=="User");
 
             if (!string.IsNullOrEmpty(searchString))
             {
@@ -400,28 +483,32 @@ namespace Sueep.Controllers
 
         [HttpPost]
 
-        public ActionResult Edit(Users employee, int id)
+        public ActionResult Edit(Customeredit employee, int id)
         {
-            var checkdata = db.UserRegistration.Where(m => m.RegisterId == id).FirstOrDefault();
-            if (checkdata != null)
+            if (ModelState.IsValid)
             {
-                checkdata.PersonName = employee.PersonName;
-                checkdata.Email = employee.Email;
-                checkdata.PhoneNumber = employee.PhoneNumber;
-                checkdata.City = employee.City;
-                checkdata.Country = employee.Country;
-                db.SaveChanges();
-                return RedirectToAction("Cutomers");
+                var checkdata = db.UserRegistration.Where(m => m.RegisterId == id).FirstOrDefault();
+                if (checkdata != null)
+                {
+                    checkdata.PersonName = employee.PersonName;
+                    checkdata.Email = employee.Email;
+                   // checkdata.PhoneNumber = employee.PhoneNumber;
+                    checkdata.City = employee.City;
+                   // checkdata.Country = employee.Country;
+                    db.SaveChanges();
+                    return RedirectToAction("Cutomers");
+                }
 
+                //if (ModelState.IsValid)
+                //{
+                //    //db.Entry(employee).State = EntityState.Modified;
+                //    db.Entry(employee).State = EntityState.Modified;
+                //    db.SaveChanges();
+                //    return RedirectToAction("Cutomers");
+                //}
+                return View(employee);
             }
-            //if (ModelState.IsValid)
-            //{
-            //    //db.Entry(employee).State = EntityState.Modified;
-            //    db.Entry(employee).State = EntityState.Modified;
-            //    db.SaveChanges();
-            //    return RedirectToAction("Cutomers");
-            //}
-            return View(employee);
+            return View();
         }
         public IActionResult deleteservices(int? id)
         {

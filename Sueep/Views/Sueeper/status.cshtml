@@ -45,18 +45,18 @@
         @Html.DropDownList("ServiceStatus", new List<SelectListItem>
         {
             new SelectListItem { Text = "All", Value = "" },
+            new SelectListItem { Text = "Pending", Value = "Pending" },
             new SelectListItem { Text = "In Progress", Value = "In Progress" },
             new SelectListItem { Text = "Complete", Value = "Complete" },
-            new SelectListItem { Text = "Pending", Value = "Pending" },
 
         })
     }
     <form action="/Sueeper/status?currentFilter=@Model.CurrentFilter" id="frmSearch">
         <div class="form-actions no-color">
             <div class="input-group">
-                <input type="text" id="SearchString" name="SearchString" class="form-control" value="@Model.CurrentFilter" placeholder="">
+                <input type="text" id="SearchString" name="SearchString" placeholder="Search..." class="form-control" value="@Model.CurrentFilter" placeholder="">
                 <div class="input-group-append">
-                    <span class="input-group-text" id="btnSearch"><i class="mdi mdi-magnify"></i></span>
+                    <span class="input-group-text" id="Search"><i class="mdi mdi-magnify" id="btmsrch"></i></span>
                 </div>
             </div>
         </div>
@@ -78,7 +78,7 @@
                 </th>
 
                 <th>
-                    @Html.DisplayName("Service Status")
+                    @Html.DisplayName("Status")
                 </th>
                 <th></th>
             </tr>
@@ -109,16 +109,16 @@
                         @Html.ActionLink("Edit", "StatusEdit", new { id = item.PesonalInfoId })
                         @*@Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ })
                             @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
-                        <a href="javascript:void(0);" data-toggle="modal" data-target="#exampleModal_@item.PesonalInfoId">View Details</a>
+                        <a href="javascript:void(0);" data-toggle="modal" data-backdrop="static" data-keyboard="false" class="launch-modal" data-target="#exampleModal_@item.PesonalInfoId">View Details</a>
                     </td>
                 </tr>
 
-                <div class="modal fade" id="exampleModal_@item.PesonalInfoId" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal fade" id="exampleModal_@item.PesonalInfoId" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="overflow-y: scroll; max-height:85%;  margin-top: 50px; margin-bottom:50px;" >
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="exampleModalLabel">Service Detail : @item.FirstName</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <button type="button"  class="close " data-dismiss="modal" aria-label="Close" >
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
@@ -131,7 +131,7 @@
                                 <div class="container">
                                     
                                     <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo"> Text </button>
-                                    <div id="demo" class="collapse">
+                                    <div id="demo" class="collapse show">
 
                                         @if (data.Count() > 0)
                                         {
@@ -152,7 +152,7 @@
                                     </div>
 
 
-                                    <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo2">Images </button>
+                                    <button type="button" id="img" class="btn btn-info" data-toggle="collapse" data-target="#demo2">Images </button>
                                     <div id="demo2" class="collapse">
 
                                         @if (data.Count() > 0)
@@ -274,8 +274,30 @@
     $('#ServiceStatus').change(function () {
         $('#frmStatus').submit();
     });
-    $('#btnSearch').click(function () {
+    //$('#btnSearch').click(function () {
+    //    $('#frmSearch').submit();
+    //});
+
+    $('#btmsrch').click(function () {
         $('#frmSearch').submit();
     });
 
+    $('.close').click(function () {
+        debugger
+        if ($('#demo2').hasClass('show')){
+            $('#img').trigger('click')
+        }
+
+
+
+    });
+
+    $(document).ready(function () {
+        debugger
+        $('.launch-modal').click(function () {
+            $('#exampleModal').modal({
+                backdrop: 'static'
+            });
+        });
+    });
 </script>

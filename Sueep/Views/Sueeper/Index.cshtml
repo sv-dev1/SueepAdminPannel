@@ -19,7 +19,7 @@
 <form action="/Sueeper/Index?currentFilter=@Model.CurrentFilter" id="frmSearch">
     <div class="form-actions no-color">
         <div class="input-group">
-            <input type="text" id="SearchString" name="SearchString" class="form-control" value="@Model.CurrentFilter" placeholder="">
+            <input type="text" id="SearchString" name="SearchString" class="form-control" value="@Model.CurrentFilter" placeholder="Search...">
             <div class="input-group-append">
                 <span class="input-group-text" id="btnSearch"><i class="mdi mdi-magnify"></i></span>
             </div>
@@ -77,7 +77,7 @@
                         @Html.DisplayFor(modelItem => item.IsBusy)
                     </td>
                     <td>
-                        @Html.ActionLink("Detail", "sueeperdetail", new { id = item.Id }) |
+                        @*@Html.ActionLink("Detail", "sueeperdetail", new { id = item.Id }) |*@
                         @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
                         @Html.ActionLink("Delete", "deleteSuueeper", new { id = item.Id })
 

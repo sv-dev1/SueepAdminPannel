@@ -18,6 +18,7 @@ html {
   }
 }
 
+
 .border-top {
   border-top: 1px solid #e5e5e5;
 }
@@ -99,7 +100,48 @@ body#services-sec {
 #StudentForm table {
     width: 100%;
 }
+.modal-body div#demo ul {
+    list-style: none;
+    padding: 0;
+}
 
+.modal-body div#demo h4 {
+    font-size: 21px;
+    margin: 10px 0 0;
+}
+.modal-body .btn-info {
+    background: #fe346e !important;
+    border: 0;
+    font-size: 14px;
+}
+#demo2 h4 {
+    font-size: 21px;
+    margin: 20px 0 5px;
+}
+#demo2 div span {
+    font-size: 13px !important;
+    background: #ccc;
+    padding: 3px 8px;
+    border-radius: 3px;
+    display: block;
+    margin: 5px 0 0;
+}
+
+#demo ul li span {
+    font-size: 13px !important;
+    background: #ccc;
+    padding: 3px 8px;
+    border-radius: 3px;
+    display: block;
+    margin: 5px 0 0;
+}
+header.menu-main-sec ul li:last-child {
+    margin-left: auto;
+}
+#demo2 div img {
+    width: 100%;
+    height: auto;
+}
 .form-actions.no-color {
     text-align: right;
     width: 50%;
@@ -111,6 +153,7 @@ form#frmStatus select#ServiceStatus {
     height: 37px;
 }
 #JobStatus {
+   
     width: 120px;
     height: 37px;
 }
@@ -172,6 +215,7 @@ form#frmStatus {
 .job-statuss-new {
     width: 70%;
     float: left;
+    
 }
 
 .search-bar-sec {

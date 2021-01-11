@@ -24,7 +24,7 @@ namespace Sueep.Controllers
         [Authorize]
         public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageIndex)
         {
-            var sueeperlist = (IQueryable<Sueeper>)db.SueeperInfo;
+            var sueeperlist = (IQueryable<Sueeper>)db.SueeperInfo.Where(a=>a.val=="1");
 
             if (!string.IsNullOrEmpty(searchString))
             {
@@ -72,6 +72,7 @@ namespace Sueep.Controllers
                         tbl.Can_you_buy_cleaning_products = model.Can_you_buy_cleaning_products;
                         tbl.Do_you_have_car = model.Do_you_have_car;
                         tbl.Email = model.Email;
+                        tbl.val = "1";
                         db.SueeperInfo.Add(tbl);
                         db.SaveChanges();
                         ModelState.Clear();
@@ -108,16 +109,21 @@ namespace Sueep.Controllers
         [HttpPost]
         public IActionResult Edit(SueeperModel model)
         {
-            Sueeper tble = new Sueeper();
-            var editdata = db.SueeperInfo.Where(m => m.Id == model.id).FirstOrDefault();
-            editdata.Name = model.Name;
-            editdata.Phone = model.Phone;
-            editdata.Socialsecuritynumber = model.Socialsecuritynumber;
-            editdata.Zipcode = model.Zipcode;
-            editdata.Do_you_have_car = model.Do_you_have_car;
-            editdata.Email = model.Email;
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                Sueeper tble = new Sueeper();
+                var editdata = db.SueeperInfo.Where(m => m.Id == model.id).FirstOrDefault();
+                editdata.Name = model.Name;
+                editdata.Phone = model.Phone;
+                editdata.Socialsecuritynumber = model.Socialsecuritynumber;
+                editdata.Zipcode = model.Zipcode;
+                editdata.Do_you_have_car = model.Do_you_have_car;
+                editdata.Email = model.Email;
+                db.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+            return View();
         }
         [Authorize]
         public IActionResult deleteSuueeper(int? id)
@@ -176,7 +182,7 @@ namespace Sueep.Controllers
                                join Add in db.AddressInfo on details.Id equals Add.PersonalInfoId
                                join TimeP in db.TimeDateInfo on details.Id equals TimeP.PersonalInfoId
                                join paytbl in db.PaymentTbl on details.Id equals paytbl.ServiceId
-                               join assintbl in db.AssinSueeper on details.Id equals assintbl.PersonaLInfoId
+                              // join assintbl in db.AssinSueeper on details.Id equals assintbl.PersonaLInfoId
                                join stsustable in db.Servicestatus on details.Id equals stsustable.serviceid
 
 
@@ -192,7 +198,7 @@ namespace Sueep.Controllers
                                    timeofservice = TimeP.TimeOfService,
                                    Email = details.Email,
 
-                                   Status = assintbl.JobStatus,
+                                   Status = stsustable.Servicestatus,
 
 
                                    Amount = paytbl.PaymentAmount,
@@ -219,7 +225,8 @@ namespace Sueep.Controllers
             {
                 try
                 {
-                    serviceList = serviceList.Where(t => t.Status.ToLower().Contains(searchString.ToLower()) || t.dateofservice.ToLower().Contains(searchString.ToLower()) || t.FirstName.ToLower().Contains(searchString.ToLower()) || t.LastName.ToLower().Contains(searchString.ToLower()) || t.PersonName.ToLower().Contains(searchString.ToLower()) || t.Servicestatus.ToLower().Contains(searchString.ToLower()));
+                    serviceList = serviceList.Where(x => x.FirstName.ToLower().Contains(searchString)||x.dateofservice.Contains(searchString));
+                    //serviceList.Where(t => t.Status.ToLower().Contains(searchString.ToLower()) || t.dateofservice.ToLower().Contains(searchString.ToLower()) || t.FirstName.ToLower().Contains(searchString.ToLower()) || t.LastName.ToLower().Contains(searchString.ToLower()) || t.PersonName.ToLower().Contains(searchString.ToLower()) || t.Servicestatus.ToLower().Contains(searchString.ToLower()));
                 }
                 catch (Exception)
                 {

@@ -14,7 +14,7 @@
         @using (Html.BeginForm("Services", "Service", FormMethod.Get))
         {
         <form action="/Service/Services?currentFilter=@Model.CurrentFilter" id="frmSearch">
-            <div class="job-statuss-new">
+            <div class="job-statuss-new" style="padding-bottom:7px;">
             <b>Job Status: </b>
             @Html.DropDownList("JobStatus", new List<SelectListItem>
         {
@@ -32,7 +32,7 @@
             <b> Search : </b>
             @*//@Html.RadioButton("option", "PersonName") <text>Sueeper Name</text>
             //   @Html.RadioButton("option", "FirstName")<text>Service Name</text>*@
-            @Html.TextBox("search") <input type="submit" name="submit" id="btmsrch" value="Search" />
+            @Html.TextBox("search",null,new { @placeholder = "Search..." })<input type="submit" name="submit" id="btmsrch" value="Search"/>
             </div>
 
         </form>
